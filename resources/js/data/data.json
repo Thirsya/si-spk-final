@@ -1,0 +1,70 @@
+{
+  "Header": {
+    "title": "BEST EMPLOYEE",
+    "paragraph": "Tentukan Karyawan Terbaik dari Perusahaanmu Menggunakan Sistem Pendukung Keputusan ANP dan Topsis."
+  },
+  "About": {
+    "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "Why": [
+      "Lorem ipsum dolor",
+      "Tempor incididunt",
+      "Lorem ipsum dolor",
+      "Incididunt ut labore"
+    ],
+    "Why2": [
+      "Aliquip ex ea commodo",
+      "Lorem ipsum dolor",
+      "Exercitation ullamco",
+      "Lorem ipsum dolor"
+    ]
+  },
+  "Services": [
+    {
+      "icon": "fa fa-wordpress",
+      "name": "Lorem ipsum dolor",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
+    }
+  ],
+  "Team": [
+    {
+      "img": "img/team/01.jpg",
+      "name": "Ahmad Rafif Alaudin",
+      "job": "Frontend Developer"
+    },
+    {
+      "img": "img/team/02.jpg",
+      "name": "Raka Bagas Fitriansyah",
+      "job": "Backend Developer"
+    },
+    {
+      "img": "img/team/03.jpg",
+      "name": "Thirsya Widya Sulaiman",
+      "job": "UI/UX Designer"
+    }
+  ],
+  "Contact": {
+    "address": "Jl. Soekarno Hatta No.9, Jatimulyo, Kec. Lowokwaru, Kota Malang, Jawa Timur 65141",
+    "phone": "(0341) 404424",
+    "email": "SISPK@mail.com",
+    "facebook": "#",
+    "twitter": "#",
+    "youtube": "#"
+  },
+  "Features": [
+    {
+      "icon": "fa fa-comments-o",
+      "title": "Perhitungan",
+      "text": "dapat menetukan perangkingan karyawan terbaik dengan menginputkan data yang dibutuhkan"
+    },
+    {
+      "icon": "fa fa-bullhorn",
+      "title": "Rincian Perhitungan",
+      "text": "dapat mengetahui langkah-langkah perhitungan menggunakan ANP dan TOPSIS."
+    },
+    {
+      "icon": "fa fa-group",
+      "title": "History",
+      "text": "dapat melihat history perhitungan."
+    }
+  ]
+}
