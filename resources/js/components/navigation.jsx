@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Navigation = (props) => {
+  const navigate = useNavigate()
   return (
     <nav id="menu" className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <div className="container px-5 ml-3">
@@ -14,7 +16,7 @@ export const Navigation = (props) => {
         <div className="navbar-text " id="navbarNav">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item mx-3">
-              <a className="nav-link fs-6" href="#features">HITUNG</a>
+              <button className="nav-link fs-6" onClick={() => navigate('/hitung')}>HITUNG</button>
             </li>
             <li className="nav-item  mx-3">
               <a className="nav-link fs-6" href="#features">FITUR</a>
