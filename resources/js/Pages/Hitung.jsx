@@ -1,6 +1,7 @@
 import { Navback } from "../components/navback"
 import React from 'react'
 
+
 export const Hitung = () => {
     return (
         <>
@@ -11,7 +12,7 @@ export const Hitung = () => {
                 <h1 className="pt-5">Halaman Perhitungan</h1>
                 <div className="py-4">
                     <h2 className="p-4">Tabel Kriteria</h2>
-                    <table className="table table-bordered" style="width: 50%;">
+                    <table className="table table-bordered" style={{ width: '50%' }}>
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -75,7 +76,7 @@ export const Hitung = () => {
                 </div>
                 <div className="pb-4">
                     <h2 className="p-4">Tabel Pernyataan Kriteria</h2>
-                    <table className="table table-bordered" style="width: 50%;">
+                    <table className="table table-bordered" style={{ width: '50%' }}>
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -112,18 +113,18 @@ export const Hitung = () => {
                 <div className="border border-2 p-3 mb-5">
                     <h2 className="mb-4">Form Input Data</h2>
                     <form action="">
-                        <div className="ps-5" style="width:50%">
+                        <div className="ps-5" style={{ width: '50%' }}>
                             <div className="mb-5">
-                                <label for="judul" className="form-label">Judul Perhitungan</label>
+                                <label htmlFor="judul" className="form-label">Judul Perhitungan</label>
                                 <input type="text" className="form-control" id="judul" required />
                             </div>
                             <p className="m-0">Contoh Inputan Excel</p>
                             <img src="img/contoh.png" alt="" className="p-3" />
                             <div className="mb-5">
-                                <label for="excel" className="form-label">Input Data Kiteria per alternatif</label>
+                                <label htmlFor="excel" className="form-label">Input Data Kiteria per alternatif</label>
                                 <input type="file" className="form-control" id="excel" required />
                             </div>
-                            <div className="d-flex flex-row-reverse" style="width:200%">
+                            <div className="d-flex flex-row-reverse" style={{ width: '200%' }}>
                                 <button type="submit" className="btn btn-success btn-lg text-white m-3" >Hitung</button>
                                 <button type="reset" className="btn btn-danger btn-lg text-white m-3" >Reset</button>
                             </div>
