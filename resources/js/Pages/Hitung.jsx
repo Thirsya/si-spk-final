@@ -11,7 +11,7 @@ export const Hitung = () => {
             <div className="container pb-6">
                 <h1 className="pt-5">Halaman Perhitungan</h1>
                 <div className="py-4">
-                    <h2 className="p-4">Tabel Kriteria</h2>
+                    <h3 className="p-4">Tabel Kriteria</h3>
                     <table className="table table-bordered" style={{ width: '50%' }}>
                         <thead>
                             <tr>
@@ -75,7 +75,7 @@ export const Hitung = () => {
                     </table>
                 </div>
                 <div className="pb-4">
-                    <h2 className="p-4">Tabel Pernyataan Kriteria</h2>
+                    <h3 className="p-4">Tabel Pernyataan Kriteria</h3>
                     <table className="table table-bordered" style={{ width: '50%' }}>
                         <thead>
                             <tr>
@@ -111,7 +111,7 @@ export const Hitung = () => {
                 </div>
 
                 <div className="border border-2 p-3 mb-5">
-                    <h2 className="mb-4">Form Input Data</h2>
+                    <h3 className="mb-4">Form Input Data</h3>
                     <form action="">
                         <div className="ps-5" style={{ width: '50%' }}>
                             <div className="mb-5">
@@ -120,9 +120,79 @@ export const Hitung = () => {
                             </div>
                             <p className="m-0">Contoh Inputan Excel</p>
                             <img src="img/contoh.png" alt="" className="p-3" />
-                            <div className="mb-5">
-                                <label htmlFor="excel" className="form-label">Input Data Kiteria per alternatif</label>
-                                <input type="file" className="form-control" id="excel" required />
+                            <div className="mb-5" style={{ width: '150%' }}>
+                                <div className="d-flex">
+                                    <div className="">
+                                        <label htmlFor="excel" className="form-label">Input Data Kiteria per alternatif</label><br />
+                                        <input type="file" className="form-control" id="excel" required />
+                                    </div>
+                                    <button type="button" className="btn btn-success btn-sm text-white m-3" >pilih</button>
+                                </div>
+                            </div>
+                            <div className="py-4">
+                                <h3 className="p-4">Preview Data</h3>
+                                <table className="table table-bordered" style={{ width: '150%' }}>
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama Siswa</th>
+                                            <th>C1</th>
+                                            <th>C2</th>
+                                            <th>C3</th>
+                                            <th>C4</th>
+                                            <th>C5</th>
+                                            <th>C6</th>
+                                            <th>C7</th>
+                                            <th>C8</th>
+                                            <th>C9</th>
+                                            <th>C10</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Ahmad Rafif Alaudin</td>
+                                            <td>0,2</td>
+                                            <td>0,4</td>
+                                            <td>0,5</td>
+                                            <td>0,2</td>
+                                            <td>0,4</td>
+                                            <td>0,4</td>
+                                            <td>0,2</td>
+                                            <td>0,5</td>
+                                            <td>0,3</td>
+                                            <td>0,2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Raka Bagas Fitriansyah</td>
+                                            <td>0,4</td>
+                                            <td>0,2</td>
+                                            <td>0,4</td>
+                                            <td>0,5</td>
+                                            <td>0,3</td>
+                                            <td>0,4</td>
+                                            <td>0,5</td>
+                                            <td>0,2</td>
+                                            <td>0,2</td>
+                                            <td>0,2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Thirsya Widya Sulaiman</td>
+                                            <td>0,4</td>
+                                            <td>0,3</td>
+                                            <td>0,2</td>
+                                            <td>0,4</td>
+                                            <td>0,2</td>
+                                            <td>0,5</td>
+                                            <td>0,2</td>
+                                            <td>0,2</td>
+                                            <td>0,4</td>
+                                            <td>0,5</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div className="d-flex flex-row-reverse" style={{ width: '200%' }}>
                                 <button type="submit" className="btn btn-success btn-lg text-white m-3" >Hitung</button>
@@ -131,8 +201,6 @@ export const Hitung = () => {
                         </div>
                     </form>
                 </div>
-
-
             </div>
         </>
     );
