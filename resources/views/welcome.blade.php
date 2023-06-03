@@ -43,6 +43,8 @@
     <!-- Include your compiled JavaScript file -->
     <script src="{{ asset('js/index.js') }}"></script>
 
+
+
 </body>
 
 </html>

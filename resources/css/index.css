@@ -5,6 +5,25 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  
+}
+
+p, label {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+h5 {
+  text-transform: lowercase;
+  font-weight: normal;
+  margin-bottom: 4vh;
+  margin-top: 4vh;
+}
+
+h3 {
+  font-weight : bold;
+  font-size: 26px;
 }
 
 code {
