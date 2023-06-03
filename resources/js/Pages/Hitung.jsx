@@ -8,7 +8,7 @@ export const Hitung = () => {
 
             <Navback></Navback>
 
-            <div className="container pb-6">
+            <div className="container mb-5">
                 <h1 className="pt-5">Halaman Perhitungan</h1>
                 <div className="py-4">
                     <h3 className="p-4">Tabel Kriteria</h3>
@@ -110,8 +110,8 @@ export const Hitung = () => {
                     </table>
                 </div>
 
-                <div className="border border-2 p-3 mb-5">
-                    <h3 className="mb-4">Form Input Data</h3>
+                <div className="border border-2 p-3">
+                    <h3 className="mb-5 p-3">Form Input Data</h3>
                     <form action="">
                         <div className="ps-5" style={{ width: '50%' }}>
                             <div className="mb-5">
@@ -120,7 +120,7 @@ export const Hitung = () => {
                             </div>
                             <p className="m-0">Contoh Inputan Excel</p>
                             <img src="img/contoh.png" alt="" className="p-3" />
-                            <div className="mb-5" style={{ width: '150%' }}>
+                            <div className="my-5" style={{ width: '150%' }}>
                                 <div className="d-flex">
                                     <div className="">
                                         <label htmlFor="excel" className="form-label">Input Data Kiteria per alternatif</label><br />
@@ -201,6 +201,7 @@ export const Hitung = () => {
                         </div>
                     </form>
                 </div>
+
             </div>
         </>
     );
