@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\ApiPerhitunganController;
 use App\Http\Controllers\Api\ApiPerhitunganKriteriaPerAlternatifController;
+use App\Http\Controllers\Api\ApiMetodeEntropyController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +28,11 @@ Route::get(
     'kriteria-per-alternatif',
     [ApiPerhitunganKriteriaPerAlternatifController::class, 'index'],
     ['as' => 'api']
-)->name('api.kriteria.per.alternatif.index');
-Route::post(
-    'kriteria-per-alternatif',
-    [ApiPerhitunganKriteriaPerAlternatifController::class, 'store'],
-    ['as' => 'api']
-)->name('api.kriteria.per.alternatif.store');
+    )->name('api.kriteria.per.alternatif.index');
+    Route::post(
+        'kriteria-per-alternatif',
+        [ApiPerhitunganKriteriaPerAlternatifController::class, 'store'],
+        ['as' => 'api']
+        )->name('api.kriteria.per.alternatif.store');
+
+Route::post('perhitungantotal', [ApiMetodeEntropyController::class, 'PerhitunganTotal'])->name('api.test.index');

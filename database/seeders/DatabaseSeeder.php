@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             TabelBobotEntropySeeder::class,
             TabelNilaiEntropySeeder::class,
             TabelTotalNilaiEntropySeeder::class,
+            // MaxBenefitSeeder::class
         ]);
     }
 }

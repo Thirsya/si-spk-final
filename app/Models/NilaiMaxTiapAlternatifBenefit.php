@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class NilaiMaxTiapAlternatif extends Model
+class NilaiMaxTiapAlternatifBenefit extends Model
 {
     protected $table = 'nilai_max_tiap_alternatif_benefit';
 

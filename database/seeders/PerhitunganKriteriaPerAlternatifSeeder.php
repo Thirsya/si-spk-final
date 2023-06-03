@@ -15,35 +15,22 @@ class PerhitunganKriteriaPerAlternatifSeeder extends Seeder
      */
     public function run()
     {
-        PerhitunganKriteriaPerAlternatif::create([
-            'id_perhitungan' => 1,
-            'nama_siswa' => 'John Doe',
-            'Ranking_Kelas' => 8.1,
-            'Disiplin' => 8.2,
-            'Kemampuan_Bahasa_Asing' => 8.3,
-            'Hafalan_Rumus_Periodik' => 8.4,
-            'Teliti_Unsur_Kimia' => 8.5,
-            'Riwayat_Sanksi' => 8.6,
-            'Umur' => 8.7,
-            'Sering_Terlambat' => 8.8,
-            'Jumlah_Alpha' => 8.8,
-            'Presentasi_Kekalahan' => 8.9,
+        for ($i = 0; $i < 20; $i++) {
+            PerhitunganKriteriaPerAlternatif::create([
+                'id_perhitungan' => 1,
+                'nama_siswa' => 'Dummy ' . ($i + 1),
+                'Ranking_Kelas' => rand(70, 100) / 10,
+                'Disiplin' => rand(70, 100) / 10,
+                'Kemampuan_Bahasa_Asing' => rand(70, 100) / 10,
+                'Hafalan_Rumus_Periodik' => rand(70, 100) / 10,
+                'Teliti_Unsur_Kimia' => rand(70, 100) / 10,
+                'Riwayat_Sanksi' => rand(70, 100) / 10,
+                'Umur' => rand(70, 100) / 10,
+                'Sering_Terlambat' => rand(70, 100) / 10,
+                'Jumlah_Alpha' => rand(70, 100) / 10,
+                'Presentasi_Kekalahan' => rand(70, 100) / 10,
+            ]);
+        }
 
-        ]);
-
-        PerhitunganKriteriaPerAlternatif::create([
-            'id_perhitungan' => 2,
-            'nama_siswa' => 'Jane Smith',
-            'Ranking_Kelas' => 8.1,
-            'Disiplin' => 8.2,
-            'Kemampuan_Bahasa_Asing' => 8.3,
-            'Hafalan_Rumus_Periodik' => 8.4,
-            'Teliti_Unsur_Kimia' => 8.5,
-            'Riwayat_Sanksi' => 8.6,
-            'Umur' => 8.7,
-            'Sering_Terlambat' => 8.8,
-            'Jumlah_Alpha' => 8.8,
-            'Presentasi_Kekalahan' => 8.9,
-        ]);
     }
 }

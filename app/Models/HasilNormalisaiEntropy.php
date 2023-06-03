@@ -11,16 +11,16 @@ class HasilNormalisaiEntropy extends Model
 
     protected $fillable = [
         'id_perhitungan',
-        'nilai_normalisasi_kriteria_1',
-        'nilai_normalisasi_kriteria_2',
-        'nilai_normalisasi_kriteria_3',
-        'nilai_normalisasi_kriteria_4',
-        'nilai_normalisasi_kriteria_5',
-        'nilai_normalisasi_kriteria_6',
-        'nilai_normalisasi_kriteria_7',
-        'nilai_normalisasi_kriteria_8',
-        'nilai_normalisasi_kriteria_9',
-        'nilai_normalisasi_kriteria_10',
+        'nilai_normalisasi_Ranking_Kelas',
+        'nilai_normalisasi_Disiplin',
+        'nilai_normalisasi_Kemampuan_Bahasa_Asing',
+        'nilai_normalisasi_Hafalan_Rumus_Periodik',
+        'nilai_normalisasi_Teliti_Unsur_Kimia',
+        'nilai_normalisasi_Riwayat_Sanksi',
+        'nilai_normalisasi_Umur',
+        'nilai_normalisasi_Sering_Terlambat',
+        'nilai_normalisasi_Jumlah_Alpha',
+        'nilai_normalisasi_Presentasi_Kekalahan',
     ];
 
     public function perhitungan()

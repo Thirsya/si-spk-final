@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nilai_max_tiap_alternatif_cost', function (Blueprint $table) {
+        Schema::create('nilai_min_tiap_alternatif_cost', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('id_perhitungan');
-        $table->double('max_Riwayat_Sanksi');
-        $table->double('max_Umur');
-        $table->double('max_Sering_Terlambat');
-        $table->double('max_Jumlah_Alpha');
-        $table->double('max_Presentasi_Kekalahan');
+        $table->double('min_Riwayat_Sanksi');
+        $table->double('min_Umur');
+        $table->double('min_Sering_Terlambat');
+        $table->double('min_Jumlah_Alpha');
+        $table->double('min_Presentasi_Kekalahan');
 
         $table->foreign('id_perhitungan')->references('id')->on('perhitungan');
         $table->timestamps();
