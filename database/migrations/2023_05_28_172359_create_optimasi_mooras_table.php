@@ -17,16 +17,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_perhitungan');
             $table->string('nama_siswa');
-            $table->double('nilai_kriteria_1');
-            $table->double('nilai_kriteria_2');
-            $table->double('nilai_kriteria_3');
-            $table->double('nilai_kriteria_4');
-            $table->double('nilai_kriteria_5');
-            $table->double('nilai_kriteria_6');
-            $table->double('nilai_kriteria_7');
-            $table->double('nilai_kriteria_8');
-            $table->double('nilai_kriteria_9');
-            $table->double('nilai_kriteria_10');
+            $table->double('nilai_kriteria_Ranking_Kelas');
+            $table->double('nilai_kriteria_Disiplin');
+            $table->double('nilai_kriteria_Kemampuan_Bahasa_Asing');
+            $table->double('nilai_kriteria_Hafalan_Rumus_Periodik');
+            $table->double('nilai_kriteria_Teliti_Unsur_Kimia');
+            $table->double('nilai_kriteria_Riwayat_Sanksi');
+            $table->double('nilai_kriteria_Umur');
+            $table->double('nilai_kriteria_Sering_Terlambat');
+            $table->double('nilai_kriteria_Jumlah_Alpha');
+            $table->double('nilai_kriteria_Presentasi_Kekalahan');
 
             $table->foreign('id_perhitungan')->references('id')->on('perhitungan');
             $table->timestamps();

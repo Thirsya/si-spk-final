@@ -22,16 +22,16 @@ class ApiPerhitunganKriteriaPerAlternatifController extends Controller
         $data = $request->validate([
             'id_perhitungan' => 'required|exists:perhitungan,id',
             'nama_siswa' => 'required|string',
-            'nilai_kriteria_1' => 'required|numeric',
-            'nilai_kriteria_2' => 'required|numeric',
-            'nilai_kriteria_3' => 'required|numeric',
-            'nilai_kriteria_4' => 'required|numeric',
-            'nilai_kriteria_5' => 'required|numeric',
-            'nilai_kriteria_6' => 'required|numeric',
-            'nilai_kriteria_7' => 'required|numeric',
-            'nilai_kriteria_8' => 'required|numeric',
-            'nilai_kriteria_9' => 'required|numeric',
-            'nilai_kriteria_10' => 'required|numeric',
+            'Ranking_Kelas' => 'required|numeric',
+            'Disiplin' => 'required|numeric',
+            'Kemampuan_Bahasa_Asing' => 'required|numeric',
+            'Hafalan_Rumus_Periodik' => 'required|numeric',
+            'Teliti_Unsur_Kimia' => 'required|numeric',
+            'Riwayat_Sanksi' => 'required|numeric',
+            'Umur' => 'required|numeric',
+            'Sering_Terlambat' => 'required|numeric',
+            'Jumlah_Alpha' => 'required|numeric',
+            'Presentasi_Kekalahan' => 'required|numeric',
         ]);
 
         $perhitunganKriteriaPerAlternatif = PerhitunganKriteriaPerAlternatif::create($data);

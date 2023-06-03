@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hasil_normalisai_entropy', function (Blueprint $table) {
+        Schema::create('hasil_normalisasi_entropy', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perhitungan');
             $table->double('nilai_normalisasi_Ranking_Kelas');

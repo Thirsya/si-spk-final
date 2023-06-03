@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('normalisai_moora', function (Blueprint $table) {
+        Schema::create('normalisasi_moora', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perhitungan');
             $table->double('nilai_kriteria_1');
