@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('tabel_bobot_entropies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('hitung_id')->nullable();
-            $table->double('bobot_entropy_1')->nullable();
-            $table->double('bobot_entropy_2')->nullable();
-            $table->double('bobot_entropy_3')->nullable();
-            $table->double('bobot_entropy_4')->nullable();
-            $table->double('bobot_entropy_5')->nullable();
-            $table->double('bobot_entropy_6')->nullable();
-            $table->double('bobot_entropy_7')->nullable();
-            $table->double('bobot_entropy_8')->nullable();
-            $table->double('bobot_entropy_9')->nullable();
-            $table->double('bobot_entropy_10')->nullable();
+            $table->double('bobot_entropy_Ranking_Kelas')->nullable();
+            $table->double('bobot_entropy_Disiplin')->nullable();
+            $table->double('bobot_entropy_Kemampuan_Bahasa_Asing')->nullable();
+            $table->double('bobot_entropy_Hafalan_Rumus_Periodik')->nullable();
+            $table->double('bobot_entropy_Teliti_Unsur_Kimia')->nullable();
+            $table->double('bobot_entropy_Riwayat_Sanksi')->nullable();
+            $table->double('bobot_entropy_Umur')->nullable();
+            $table->double('bobot_entropy_Sering_Terlambat')->nullable();
+            $table->double('bobot_entropy_Jumlah_Alpha')->nullable();
+            $table->double('bobot_entropy_Presentasi_Kekalahan')->nullable();
             $table->foreign('hitung_id')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });

@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('hasil_normalisai_entropy', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perhitungan');
-            $table->float('nilai_normalisasi_kriteria_1');
-            $table->float('nilai_normalisasi_kriteria_2');
-            $table->float('nilai_normalisasi_kriteria_3');
-            $table->float('nilai_normalisasi_kriteria_4');
-            $table->float('nilai_normalisasi_kriteria_5');
-            $table->float('nilai_normalisasi_kriteria_6');
-            $table->float('nilai_normalisasi_kriteria_7');
-            $table->float('nilai_normalisasi_kriteria_8');
-            $table->float('nilai_normalisasi_kriteria_9');
-            $table->float('nilai_normalisasi_kriteria_10');
+            $table->double('nilai_normalisasi_Ranking_Kelas');
+            $table->double('nilai_normalisasi_Disiplin');
+            $table->double('nilai_normalisasi_Kemampuan_Bahasa_Asing');
+            $table->double('nilai_normalisasi_Hafalan_Rumus_Periodik');
+            $table->double('nilai_normalisasi_Teliti_Unsur_Kimia');
+            $table->double('nilai_normalisasi_Riwayat_Sanksi');
+            $table->double('nilai_normalisasi_Umur');
+            $table->double('nilai_normalisasi_Sering_Terlambat');
+            $table->double('nilai_normalisasi_Jumlah_Alpha');
+            $table->double('nilai_normalisasi_Presentasi_Kekalahan');
 
             $table->foreign('id_perhitungan')->references('id')->on('perhitungan');
             $table->timestamps();

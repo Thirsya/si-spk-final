@@ -12,16 +12,16 @@ class PerhitunganKriteriaPerAlternatif extends Model
     protected $fillable = [
         'id_perhitungan',
         'nama_siswa',
-        'nilai_kriteria_1',
-        'nilai_kriteria_2',
-        'nilai_kriteria_3',
-        'nilai_kriteria_4',
-        'nilai_kriteria_5',
-        'nilai_kriteria_6',
-        'nilai_kriteria_7',
-        'nilai_kriteria_8',
-        'nilai_kriteria_9',
-        'nilai_kriteria_10',
+        'Ranking_Kelas',
+        'Disiplin',
+        'Kemampuan_Bahasa_Asing',
+        'Hafalan_Rumus_Periodik',
+        'Teliti_Unsur_Kimia',
+        'Riwayat_Sanksi',
+        'Umur',
+        'Sering_Terlambat',
+        'Jumlah_Alpha',
+        'Presentasi_Kekalahan',
     ];
 
     public function perhitungan()

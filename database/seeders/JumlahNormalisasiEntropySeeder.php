@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\JumlahNormalisasiEntropy;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class JumlahNormalisasiEntropySeeder extends Seeder
@@ -17,16 +16,16 @@ class JumlahNormalisasiEntropySeeder extends Seeder
     {
         JumlahNormalisasiEntropy::create([
             'hitung_id' => 1,
-            'jumlah_kriteria_1' => 2.5,
-            'jumlah_kriteria_2' => 3.8,
-            'jumlah_kriteria_3' => 4.2,
-            'jumlah_kriteria_4' => 1.9,
-            'jumlah_kriteria_5' => 3.6,
-            'jumlah_kriteria_6' => 2.1,
-            'jumlah_kriteria_7' => 4.7,
-            'jumlah_kriteria_8' => 3.3,
-            'jumlah_kriteria_9' => 2.8,
-            'jumlah_kriteria_10' => 3.9,
+            'jumlah_normalisasi_Ranking_Kelas' => 2.5,
+            'jumlah_normalisasi_Disiplin' => 3.8,
+            'jumlah_normalisasi_Kemampuan_Bahasa_Asing' => 4.2,
+            'jumlah_normalisasi_Hafalan_Rumus_Periodik' => 1.9,
+            'jumlah_normalisasi_Teliti_Unsur_Kimia' => 3.6,
+            'jumlah_normalisasi_Riwayat_Sanksi' => 2.1,
+            'jumlah_normalisasi_Umur' => 4.7,
+            'jumlah_normalisasi_Sering_Terlambat' => 3.3,
+            'jumlah_normalisasi_Jumlah_Alpha' => 2.8,
+            'jumlah_normalisasi_Presentasi_Kekalahan' => 3.9,
         ]);
     }
 }

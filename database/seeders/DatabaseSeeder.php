@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             PerhitunganSeeder::class,
             PerhitunganKriteriaPerAlternatifSeeder::class,
             JumlahNormalisasiEntropySeeder::class,
-            PerhitunganKriteriaPerAlternatifSeeder::class,
             TabelBobotEntropySeeder::class,
             TabelNilaiEntropySeeder::class,
             TabelTotalNilaiEntropySeeder::class,

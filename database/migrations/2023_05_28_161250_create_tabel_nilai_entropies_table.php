@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('tabel_nilai_entropies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('hitung_id')->nullable();
-            $table->double('nilai_e_kriteria_1')->nullable();
-            $table->double('nilai_e_kriteria_2')->nullable();
-            $table->double('nilai_e_kriteria_3')->nullable();
-            $table->double('nilai_e_kriteria_4')->nullable();
-            $table->double('nilai_e_kriteria_5')->nullable();
-            $table->double('nilai_e_kriteria_6')->nullable();
-            $table->double('nilai_e_kriteria_7')->nullable();
-            $table->double('nilai_e_kriteria_8')->nullable();
-            $table->double('nilai_e_kriteria_9')->nullable();
-            $table->double('nilai_e_kriteria_10')->nullable();
+            $table->double('nilai_e_kriteria_Ranking_Kelas')->nullable();
+            $table->double('nilai_e_kriteria_Disiplin')->nullable();
+            $table->double('nilai_e_kriteria_Kemampuan_Bahasa_Asing')->nullable();
+            $table->double('nilai_e_kriteria_Hafalan_Rumus_Periodik')->nullable();
+            $table->double('nilai_e_kriteria_Teliti_Unsur_Kimia')->nullable();
+            $table->double('nilai_e_kriteria_Riwayat_Sanksi')->nullable();
+            $table->double('nilai_e_kriteria_Umur')->nullable();
+            $table->double('nilai_e_kriteria_Sering_Terlambat')->nullable();
+            $table->double('nilai_e_kriteria_Jumlah_Alpha')->nullable();
+            $table->double('nilai_e_kriteria_Presentasi_Kekalahan')->nullable();
             $table->foreign('hitung_id')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });

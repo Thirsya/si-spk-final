@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('jumlah_normalisasi_entropies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('hitung_id')->nullable();
-            $table->double('jumlah_kriteria_1')->nullable();
-            $table->double('jumlah_kriteria_2')->nullable();
-            $table->double('jumlah_kriteria_3')->nullable();
-            $table->double('jumlah_kriteria_4')->nullable();
-            $table->double('jumlah_kriteria_5')->nullable();
-            $table->double('jumlah_kriteria_6')->nullable();
-            $table->double('jumlah_kriteria_7')->nullable();
-            $table->double('jumlah_kriteria_8')->nullable();
-            $table->double('jumlah_kriteria_9')->nullable();
-            $table->double('jumlah_kriteria_10')->nullable();
+            $table->double('jumlah_normalisasi_Ranking_Kelas')->nullable();
+            $table->double('jumlah_normalisasi_Disiplin')->nullable();
+            $table->double('jumlah_normalisasi_Kemampuan_Bahasa_Asing')->nullable();
+            $table->double('jumlah_normalisasi_Hafalan_Rumus_Periodik')->nullable();
+            $table->double('jumlah_normalisasi_Teliti_Unsur_Kimia')->nullable();
+            $table->double('jumlah_normalisasi_Riwayat_Sanksi')->nullable();
+            $table->double('jumlah_normalisasi_Umur')->nullable();
+            $table->double('jumlah_normalisasi_Sering_Terlambat')->nullable();
+            $table->double('jumlah_normalisasi_Jumlah_Alpha')->nullable();
+            $table->double('jumlah_normalisasi_Presentasi_Kekalahan')->nullable();
             $table->foreign('hitung_id')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });
