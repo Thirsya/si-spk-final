@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PerhitunganKriteriaPerAlternatif;
 use App\Models\NilaiMaxTiapAlternatifBenefit;
 use App\Models\NilaiMinTiapAlternatifCost;
+use App\Models\TabelBobotEntropy;
 use App\Models\TabelTotalNilaiEntropy;
 use Illuminate\Support\Facades\DB;
 
@@ -300,16 +301,47 @@ class ApiMetodeEntropyController extends Controller
     );
 
     $TabelTotalNilaiEntropy = DB::table('tabel_total_nilai_entropies')
+        ->select('total_nilai_e_entropy')
         ->where('hitung_id', $request->perhitungan_id)
         ->get();
 
 
 
 
+        $totalNilaiEntropy = $TabelTotalNilaiEntropy->first()->total_nilai_e_entropy;
+        $nilai_e_kriteria_Ranking_Kelas_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Ranking_Kelas;
+        $nilai_e_kriteria_Disiplin_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Disiplin;
+        $nilai_e_kriteria_Kemampuan_Bahasa_Asing_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Kemampuan_Bahasa_Asing;
+        $nilai_e_kriteria_Hafalan_Rumus_Periodik_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Hafalan_Rumus_Periodik;
+        $nilai_e_kriteria_Teliti_Unsur_Kimia_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Teliti_Unsur_Kimia;
+        $nilai_e_kriteria_Riwayat_Sanksi_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Riwayat_Sanksi;
+        $nilai_e_kriteria_Umur_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Umur;
+        $nilai_e_kriteria_Sering_Terlambat_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Sering_Terlambat;
+        $nilai_e_kriteria_Jumlah_Alpha_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Jumlah_Alpha;
+        $nilai_e_kriteria_Presentasi_Kekalahan_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Presentasi_Kekalahan;
 
-
+// dd(1/(10 - $totalNilaiEntropy));
+// dd((1-$nilai_e_kriteria_Ranking_Kelas));
         // Perhitungan Jumlah Total Nilai Entropy
+    $tabelBobot = New TabelBobotEntropy([
+    'hitung_id' => $perhitunganID,
+    'bobot_entropy_Ranking_Kelas' => ((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Ranking_Kelas_final)),
+    'bobot_entropy_Disiplin'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Disiplin_final)),
+    'bobot_entropy_Kemampuan_Bahasa_Asing'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Kemampuan_Bahasa_Asing_final)),
+    'bobot_entropy_Hafalan_Rumus_Periodik'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Hafalan_Rumus_Periodik_final)),
+    'bobot_entropy_Teliti_Unsur_Kimia'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Teliti_Unsur_Kimia_final)),
+    'bobot_entropy_Riwayat_Sanksi'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Riwayat_Sanksi_final)),
+    'bobot_entropy_Umur'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Umur_final)),
+    'bobot_entropy_Sering_Terlambat'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Sering_Terlambat_final)),
+    'bobot_entropy_Jumlah_Alpha'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Jumlah_Alpha_final)),
+    'bobot_entropy_Presentasi_Kekalahan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Presentasi_Kekalahan_final)),
 
+    ]);
+
+    $tabelBobot->save();
+    $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
+        ->where('hitung_id', $request->perhitungan_id)
+        ->get();
 
         // Perhitungan Bobot Nilai Entropy Per Kriteria
 
@@ -323,6 +355,7 @@ class ApiMetodeEntropyController extends Controller
             'jumlahNilaiNormalisasi' => $perhitunganJumlahNormalisasiEntropy,
             'nilaiEntropy' => $perhitunganNilaiEntropy,
             'TabelTotalNilaiEntropy' => $TabelTotalNilaiEntropy,
+            'TabelTotalBobotEntropy' => $TabelTotalBobotEntropy,
         ];
 
         return response()->json($response);
