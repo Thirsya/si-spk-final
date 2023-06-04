@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HasilNormalisaiEntropy extends Model
+class HasilNormalisasiEntropy extends Model
 {
-    protected $table = 'normalisasi_entropy';
+    protected $table = 'hasil_normalisasi_entropy';
 
     protected $fillable = [
         'id_perhitungan',
@@ -26,5 +26,5 @@ class HasilNormalisaiEntropy extends Model
     public function perhitungan()
     {
         return $this->belongsTo(Perhitungan::class, 'id_perhitungan');
-    }
+    }
 }

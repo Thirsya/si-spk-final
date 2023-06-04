@@ -23,8 +23,6 @@ class ApiMetodeEntropyController extends Controller
             ->where('id_perhitungan', $request->perhitungan_id)
             ->get();
 
-        // $perhitunganKriteriaPerAlternatif = PerhitunganKriteriaPerAlternatif::all();
-        // $nilaimaxbenefit = NilaiMaxTiapAlternatifBenefit::all();
 
         DB::beginTransaction();
 
@@ -67,6 +65,10 @@ class ApiMetodeEntropyController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data.']);
         }
 
+        $nilaimaxbenefit = DB::table('nilai_max_tiap_alternatif_benefit')
+            ->where('id_perhitungan', $request->perhitungan_id)
+            ->get();
+
 
         //Mengambil Nilai Min Cost
         try {
@@ -108,27 +110,60 @@ class ApiMetodeEntropyController extends Controller
         }
 
         //Membagi Tiap Nilai Kriteria Per Alternatif dengan Nilai Max Benefit
-        
-
-
-
-
-
-
         //Menampilkan Nilai Max dan Min
-        $nilaimaxbenefit = DB::table('nilai_max_tiap_alternatif_benefit')
-            ->where('id_perhitungan', $request->perhitungan_id)
-            ->get();
+
 
         $nilaimincost = DB::table('nilai_min_tiap_alternatif_cost')
             ->where('id_perhitungan', $request->perhitungan_id)
             ->get();
 
+        // dd($nilaimaxbenefit);
+
+        $entropies = [];
+
+        $maxValues = $nilaimaxbenefit->max();
+        $minValues = $nilaimincost->min();
+
+        foreach ($perhitunganKriteriaPerAlternatif as $data) {
+            $entropies[] = [
+                'id_perhitungan' => $request->perhitungan_id,
+                'nilai_normalisasi_Ranking_Kelas' => $data->Ranking_Kelas / $maxValues->max_Ranking_Kelas,
+                'nilai_normalisasi_Disiplin' => $data->Disiplin / $maxValues->max_Disiplin,
+                'nilai_normalisasi_Kemampuan_Bahasa_Asing' => $data->Kemampuan_Bahasa_Asing / $maxValues->max_Kemampuan_Bahasa_Asing,
+                'nilai_normalisasi_Hafalan_Rumus_Periodik' => $data->Hafalan_Rumus_Periodik / $maxValues->max_Hafalan_Rumus_Periodik,
+                'nilai_normalisasi_Teliti_Unsur_Kimia' => $data->Teliti_Unsur_Kimia / $maxValues->max_Teliti_Unsur_Kimia,
+                'nilai_normalisasi_Riwayat_Sanksi' =>  $minValues->min_Riwayat_Sanksi / $data->Riwayat_Sanksi,
+                'nilai_normalisasi_Umur' =>  $minValues->min_Umur / $data->Umur,
+                'nilai_normalisasi_Sering_Terlambat' => $minValues->min_Sering_Terlambat / $data->Sering_Terlambat,
+                'nilai_normalisasi_Jumlah_Alpha' => $minValues->min_Jumlah_Alpha / $data->Jumlah_Alpha,
+                'nilai_normalisasi_Presentasi_Kekalahan' => $minValues->min_Presentasi_Kekalahan / $data->Presentasi_Kekalahan,
+            ];
+        }
+
+        // Simpan nilai entropy normalisasi ke dalam tabel "hasil_normalisasi_entropy"
+        try {
+            DB::table('hasil_normalisasi_entropy')->insert($entropies);
+        } catch (\Exception $e) {
+            // Handle error jika terjadi kesalahan saat menyimpan data
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data.']);
+        }
+
+        // Mengambil data nilai entropy normalisasi
+        $nilaiEntropyNormalisasi = DB::table('hasil_normalisasi_entropy')
+            ->where('id_perhitungan', $request->perhitungan_id)
+            ->get();
+
+        // Lanjutkan dengan operasi lain yang diperlukan
+
+        // Lanjutkan dengan operasi lain yang diperlukan
+
+
         $response = [
             'perhitungans' => $perhitungans,
             'perhitunganKriteriaPerAlternatif' => $perhitunganKriteriaPerAlternatif,
             'nilaimaxbenefit' => $nilaimaxbenefit,
-            'nilaimincost' => $nilaimincost
+            'nilaimincost' => $nilaimincost,
+            'nilaiEntropyNormalisasi' => $nilaiEntropyNormalisasi,
         ];
 
         return response()->json($response);
