@@ -1,28 +1,32 @@
 {
   "Header": {
-    "title": "BEST EMPLOYEE",
-    "paragraph": "Tentukan Karyawan Terbaik dari Perusahaanmu Menggunakan Sistem Pendukung Keputusan ANP dan Topsis."
+    "title": "BEST CHEMISTRY STUDENT",
+    "paragraph": "Tentukan Siswa Terbaik dari Sekolahmu Menggunakan Sistem Pendukung Keputusan Entropy dan MOORA."
   },
   "About": {
-    "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "paragraph": "Selamat datang di website Sistem Pendukung Keputusan Siswa Terbaik! Kami menggunakan metode Entropy dan MOORA untuk membantu Anda dalam memilih siswa terbaik di sekolah Anda. Dengan antarmuka intuitif dan dukungan teknis yang handal, kami menjadi mitra terpercaya Anda dalam pengambilan keputusan yang lebih baik.",
     "Why": [
-      "Lorem ipsum dolor",
-      "Tempor incididunt",
-      "Lorem ipsum dolor",
-      "Incididunt ut labore"
+      "Efektif: Metode Entropy dan MOORA terbukti membantu memilih siswa terbaik.",
+      "Efisien: Alat kami menghemat waktu dan usaha Anda.",
+      "Objektif: Keputusan didasarkan pada data obyektif, bukan preferensi subjektif.",
+      "Antarmuka Intuitif: Website kami mudah digunakan."
     ],
     "Why2": [
-      "Aliquip ex ea commodo",
-      "Lorem ipsum dolor",
-      "Exercitation ullamco",
-      "Lorem ipsum dolor"
+      "Analisis Mendalam: Data siswa dipelajari secara komprehensif.",
+      "Optimisasi Berdasarkan Kriteria: Metode MOORA memaksimalkan keputusan."
+      
     ]
   },
   "Services": [
     {
       "icon": "fa fa-wordpress",
-      "name": "Lorem ipsum dolor",
-      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
+      "name": "Entropy",
+      "text": "Metode Entropy menentukan bobot kriteria dengan memperhitungkan tingkat ketidakpastian atau kepentingan masing-masing kriteria. Bobot diberikan berdasarkan variasi data dalam setiap kriteria, dengan bobot lebih tinggi pada kriteria dengan variasi yang lebih tinggi."
+    },
+    {
+      "icon": "fa fa-wordpress",
+      "name": "MOORA",
+      "text": "Metode MOORA digunakan untuk perankingan dalam sistem pendukung keputusan dengan mengoptimalkan perbandingan rasio antara alternatif berdasarkan kriteria yang ditetapkan sebelumnya. Alternatif dengan skor tertinggi mendapatkan peringkat lebih tinggi sesuai dengan preferensi dan kepentingan yang ditetapkan."
     }
   ],
   "Team": [
@@ -54,12 +58,12 @@
     {
       "icon": "fa fa-comments-o",
       "title": "Perhitungan",
-      "text": "dapat menetukan perangkingan karyawan terbaik dengan menginputkan data yang dibutuhkan"
+      "text": "dapat menetukan perangkingan Siswa terbaik dengan menginputkan data yang dibutuhkan"
     },
     {
       "icon": "fa fa-bullhorn",
       "title": "Rincian Perhitungan",
-      "text": "dapat mengetahui langkah-langkah perhitungan menggunakan ANP dan TOPSIS."
+      "text": "dapat mengetahui langkah-langkah perhitungan menggunakan Entropy dan MOORA."
     },
     {
       "icon": "fa fa-group",

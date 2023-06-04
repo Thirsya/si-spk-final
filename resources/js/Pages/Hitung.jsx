@@ -1,8 +1,9 @@
 import { Navback } from "../components/navback"
 import React from 'react'
-
+import { useNavigate } from "react-router-dom";
 
 export const Hitung = () => {
+    const navigate = useNavigate()
     return (
         <>
 
@@ -195,7 +196,7 @@ export const Hitung = () => {
                                 </table>
                             </div>
                             <div className="d-flex flex-row-reverse" style={{ width: '200%' }}>
-                                <button type="submit" className="btn btn-success btn-lg text-white m-3" >Hitung</button>
+                                <button type="submit" className="btn btn-success btn-lg text-white m-3" onClick={() => navigate('/langkah')} >Hitung</button>
                                 <button type="reset" className="btn btn-danger btn-lg text-white m-3" >Reset</button>
                             </div>
                         </div>

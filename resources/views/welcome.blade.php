@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/nivo-lightbox/default.css') }}" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Raleway:300,400,500,600,700,800,900"
         rel="stylesheet" />
-    <title>A React Landing Page Template</title>
+    <title>SISPK</title>
     <meta name="description" content="" />
     <meta name="author" content="@Issaafalkattan" />
 </head>

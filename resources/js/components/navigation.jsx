@@ -15,9 +15,18 @@ export const Navigation = (props) => {
         </button>
         <div className="navbar-text " id="navbarNav">
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item mx-3">
-              <button className="nav-link fs-6" onClick={() => navigate('/hitung')}>HITUNG</button>
+            <li className="nav-item dropdown  mx-3">
+              <button className="btn dropdown-toggle nav-link fs-6" data-bs-toggle="dropdown" aria-expanded="false">
+                HITUNG
+              </button>
+              <ul className="dropdown-menu">
+                <li><a className="dropdown-item" onClick={() => navigate('/hitung')}>Input Data</a></li>
+                <li><a className="dropdown-item" onClick={() => navigate('/history')}>History</a></li>
+              </ul>
             </li>
+            {/* <li className="nav-item mx-3">
+              <button className="nav-link fs-6" onClick={() => navigate('/hitung')}>HITUNG</button>
+            </li> */}
             <li className="nav-item  mx-3">
               <a className="nav-link fs-6" href="#features">FITUR</a>
             </li>

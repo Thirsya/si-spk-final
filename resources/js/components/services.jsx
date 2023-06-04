@@ -7,7 +7,7 @@ export const Services = (props) => {
         <div className="section-title">
           <h2>Metode</h2>
           <p>
-            Karyawan terbaik akan ditentukan dengan sistem pendukung keputusan menggunakan gabungan metode ANP dan TOPSIS.
+            Siswa terbaik akan ditentukan dengan sistem pendukung keputusan menggunakan gabungan metode Entropy dan MOORA.
           </p>
         </div>
         <div className="row">

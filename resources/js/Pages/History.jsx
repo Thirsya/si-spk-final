@@ -1,7 +1,9 @@
 import { Navback } from "../components/navback"
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 
 export const History = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Navback></Navback>
@@ -22,7 +24,7 @@ export const History = () => {
                             <td>Perhitungan 1</td>
                             <td>01/06/2023</td>
                             <td>
-                                <button className="btn btn-sm btn-info text-white" type="button">Detail</button>
+                                <button className="btn btn-sm btn-info text-white" type="button" onClick={() => navigate('/langkah')}>Detail</button>
                             </td>
                         </tr>
                         <tr>
@@ -30,7 +32,7 @@ export const History = () => {
                             <td>Perhitungan 2</td>
                             <td>01/06/2023</td>
                             <td>
-                                <button className="btn btn-sm btn-info text-white" type="button">Detail</button>
+                                <button className="btn btn-sm btn-info text-white" type="button" onClick={() => navigate('/langkah')}>Detail</button>
                             </td>
                         </tr>
                         <tr>
@@ -38,7 +40,7 @@ export const History = () => {
                             <td>Perhitungan 3</td>
                             <td>01/06/2023</td>
                             <td>
-                                <button className="btn btn-sm btn-info text-white" type="button">Detail</button>
+                                <button className="btn btn-sm btn-info text-white" type="button" onClick={() => navigate('/langkah')}>Detail</button>
                             </td>
                         </tr>
                     </tbody>

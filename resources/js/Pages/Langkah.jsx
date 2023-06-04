@@ -1,7 +1,11 @@
 import { Navback } from "../components/navback"
 import React from 'react'
+import { useNavigate } from "react-router-dom";
+
 
 export const Langkah = () => {
+    const navigate = useNavigate()
+
     return (
         <>
             <Navback></Navback>
@@ -463,6 +467,9 @@ export const Langkah = () => {
 
                     </div>
                 </div>
+
+                <button type="button" className="btn btn-success btn-lg text-white m-3" onClick={() => navigate('/history')} >History</button>
+
 
             </div>
 
