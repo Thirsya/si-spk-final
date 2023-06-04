@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('jumlah_normalisasi_entropies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('hitung_id')->nullable();
+            $table->unsignedBigInteger('id_perhitungan')->nullable();
             $table->double('jumlah_normalisasi_Ranking_Kelas')->nullable();
             $table->double('jumlah_normalisasi_Disiplin')->nullable();
             $table->double('jumlah_normalisasi_Kemampuan_Bahasa_Asing')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->double('jumlah_normalisasi_Sering_Terlambat')->nullable();
             $table->double('jumlah_normalisasi_Jumlah_Alpha')->nullable();
             $table->double('jumlah_normalisasi_Presentasi_Kekalahan')->nullable();
-            $table->foreign('hitung_id')->references('id')->on('perhitungan')->restrictOnDelete();
+            $table->foreign('id_perhitungan')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });
     }

@@ -109,15 +109,13 @@ class ApiMetodeEntropyController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data.']);
         }
 
-        //Membagi Tiap Nilai Kriteria Per Alternatif dengan Nilai Max Benefit
-        //Menampilkan Nilai Max dan Min
-
-
         $nilaimincost = DB::table('nilai_min_tiap_alternatif_cost')
             ->where('id_perhitungan', $request->perhitungan_id)
             ->get();
 
-        // dd($nilaimaxbenefit);
+        //Membuat Hasil Normalisasi dengan membagi Nilai Max dan Min Tiap Kriteria Per Alternatif
+        //Untuk Kriteria Benefit, Nilai Kriteria Per Alternatif dibagi Nilai Max
+        //Untuk Kriteria Cost, Nilai Min dibagi Nilai Kriteria Per Alternatif
 
         $entropies = [];
 
@@ -153,7 +151,46 @@ class ApiMetodeEntropyController extends Controller
             ->where('id_perhitungan', $request->perhitungan_id)
             ->get();
 
-        // Lanjutkan dengan operasi lain yang diperlukan
+        //Membuat Jumlah Akhir Nilai Hasil Normalisasi Entropy dengan Menjumlahkan Nilai Seluruh Kolom
+        $jumlahNormalisasi = [
+            'id_perhitungan' => $request->perhitungan_id,
+            'jumlah_normalisasi_Ranking_Kelas' => 0,
+            'jumlah_normalisasi_Disiplin' => 0,
+            'jumlah_normalisasi_Kemampuan_Bahasa_Asing' => 0,
+            'jumlah_normalisasi_Hafalan_Rumus_Periodik' => 0,
+            'jumlah_normalisasi_Teliti_Unsur_Kimia' => 0,
+            'jumlah_normalisasi_Riwayat_Sanksi' => 0,
+            'jumlah_normalisasi_Umur' => 0,
+            'jumlah_normalisasi_Sering_Terlambat' => 0,
+            'jumlah_normalisasi_Jumlah_Alpha' => 0,
+            'jumlah_normalisasi_Presentasi_Kekalahan' => 0,
+        ];
+
+        foreach ($entropies as $data) {
+            $jumlahNormalisasi['jumlah_normalisasi_Ranking_Kelas'] += $data['nilai_normalisasi_Ranking_Kelas'];
+            $jumlahNormalisasi['jumlah_normalisasi_Disiplin'] += $data['nilai_normalisasi_Disiplin'];
+            $jumlahNormalisasi['jumlah_normalisasi_Kemampuan_Bahasa_Asing'] += $data['nilai_normalisasi_Kemampuan_Bahasa_Asing'];
+            $jumlahNormalisasi['jumlah_normalisasi_Hafalan_Rumus_Periodik'] += $data['nilai_normalisasi_Hafalan_Rumus_Periodik'];
+            $jumlahNormalisasi['jumlah_normalisasi_Teliti_Unsur_Kimia'] += $data['nilai_normalisasi_Teliti_Unsur_Kimia'];
+            $jumlahNormalisasi['jumlah_normalisasi_Riwayat_Sanksi'] += $data['nilai_normalisasi_Riwayat_Sanksi'];
+            $jumlahNormalisasi['jumlah_normalisasi_Umur'] += $data['nilai_normalisasi_Umur'];
+            $jumlahNormalisasi['jumlah_normalisasi_Sering_Terlambat'] += $data['nilai_normalisasi_Sering_Terlambat'];
+            $jumlahNormalisasi['jumlah_normalisasi_Jumlah_Alpha'] += $data['nilai_normalisasi_Jumlah_Alpha'];
+            $jumlahNormalisasi['jumlah_normalisasi_Presentasi_Kekalahan'] += $data['nilai_normalisasi_Presentasi_Kekalahan'];
+        }
+
+       // Simpan nilai jumlah entropy normalisasi ke dalam tabel "jumlah_normalisasi_entropies"
+        try {
+            DB::table('jumlah_normalisasi_entropies')->insert([$jumlahNormalisasi]);
+        } catch (\Exception $e) {
+            // Handle error jika terjadi kesalahan saat menyimpan data
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()]);
+        }
+
+        $perhitunganJumlahNormalisasiEntropy = DB::table('jumlah_normalisasi_entropies')
+        ->where('id_perhitungan', $request->perhitungan_id)
+        ->get();
+
 
         // Lanjutkan dengan operasi lain yang diperlukan
 
@@ -164,6 +201,7 @@ class ApiMetodeEntropyController extends Controller
             'nilaimaxbenefit' => $nilaimaxbenefit,
             'nilaimincost' => $nilaimincost,
             'nilaiEntropyNormalisasi' => $nilaiEntropyNormalisasi,
+            'jumlahNilaiNormalisasi' => $perhitunganJumlahNormalisasiEntropy
         ];
 
         return response()->json($response);

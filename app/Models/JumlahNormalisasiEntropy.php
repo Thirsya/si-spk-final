@@ -9,7 +9,7 @@ class JumlahNormalisasiEntropy extends Model
     protected $table = 'jumlah_normalisasi_entropies'; // Ganti 'nama_tabel' dengan nama tabel yang sesuai
 
     protected $fillable = [
-        'hitung_id',
+        'id_perhitungan',
         'jumlah_normalisasi_Ranking_Kelas',
         'jumlah_normalisasi_Disiplin',
         'jumlah_normalisasi_Kemampuan_Bahasa_Asing',

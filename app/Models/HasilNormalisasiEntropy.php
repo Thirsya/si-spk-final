@@ -26,5 +26,5 @@ class HasilNormalisasiEntropy extends Model
     public function perhitungan()
     {
         return $this->belongsTo(Perhitungan::class, 'id_perhitungan');
-    }
+    }
 }

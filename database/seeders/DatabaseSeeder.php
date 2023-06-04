@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PerhitunganSeeder::class,
             PerhitunganKriteriaPerAlternatifSeeder::class,
-            JumlahNormalisasiEntropySeeder::class,
+            // JumlahNormalisasiEntropySeeder::class,
             TabelBobotEntropySeeder::class,
             TabelNilaiEntropySeeder::class,
             TabelTotalNilaiEntropySeeder::class,
