@@ -9,7 +9,7 @@ class TabelTotalNilaiEntropy extends Model
 {
     use HasFactory;
 
-    protected $table = 'tabel_nilai_entropies'; // Ganti 'nama_tabel' dengan nama tabel yang sesuai
+    protected $table = 'tabel_total_nilai_entropies'; // Ganti 'nama_tabel' dengan nama tabel yang sesuai
 
     protected $fillable = [
         'hitung_id',

@@ -36,7 +36,7 @@ return new class extends Migration
             $table->foreign('id_hasil_normalisasi_entropy')->references('id')->on('hasil_normalisasi_entropy')->restrictOnDelete();
             $table->foreign('id_jumlah_normalisasi_entropy')->references('id')->on('jumlah_normalisasi_entropies')->restrictOnDelete();
             $table->foreign('id_nilai_entropy_e')->references('id')->on('tabel_nilai_entropies')->restrictOnDelete();
-            $table->foreign('id_total_nilai_entropy')->references('id')->on('tabel_total_nilai_bobot_entropies')->restrictOnDelete();
+            $table->foreign('id_total_nilai_entropy')->references('id')->on('tabel_total_nilai_entropies')->restrictOnDelete();
             $table->foreign('id_bobot_entropy')->references('id')->on('tabel_bobot_entropies')->restrictOnDelete();
             $table->foreign('id_normalisasi_moora')->references('id')->on('normalisasi_moora')->restrictOnDelete();
             $table->foreign('id_optimasi_moora')->references('id')->on('optimasi_moora')->restrictOnDelete();

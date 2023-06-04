@@ -12,7 +12,7 @@ class TabelNilaiEntropy extends Model
     protected $table = 'tabel_nilai_entropies'; // Ganti 'nama_tabel' dengan nama tabel yang sesuai
 
     protected $fillable = [
-        'hitung_id',
+        'id_perhitungan',
         'nilai_e_kriteria_Ranking_Kelas',
         'nilai_e_kriteria_Disiplin',
         'nilai_e_kriteria_Kemampuan_Bahasa_Asing',

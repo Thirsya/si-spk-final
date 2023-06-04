@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tabel_nilai_entropies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('hitung_id')->nullable();
+            $table->unsignedBigInteger('id_perhitungan')->nullable();
             $table->double('nilai_e_kriteria_Ranking_Kelas')->nullable();
             $table->double('nilai_e_kriteria_Disiplin')->nullable();
             $table->double('nilai_e_kriteria_Kemampuan_Bahasa_Asing')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->double('nilai_e_kriteria_Sering_Terlambat')->nullable();
             $table->double('nilai_e_kriteria_Jumlah_Alpha')->nullable();
             $table->double('nilai_e_kriteria_Presentasi_Kekalahan')->nullable();
-            $table->foreign('hitung_id')->references('id')->on('perhitungan')->restrictOnDelete();
+            $table->foreign('id_perhitungan')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });
     }

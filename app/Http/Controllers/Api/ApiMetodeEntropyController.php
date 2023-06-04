@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PerhitunganKriteriaPerAlternatif;
 use App\Models\NilaiMaxTiapAlternatifBenefit;
 use App\Models\NilaiMinTiapAlternatifCost;
-
+use App\Models\TabelTotalNilaiEntropy;
 use Illuminate\Support\Facades\DB;
 
 
@@ -32,7 +32,13 @@ class ApiMetodeEntropyController extends Controller
             $highestValues = [];
 
             // Tentukan daftar kolom yang ingin diambil
-            $kolomYangDiambil = ['Ranking_Kelas', 'Disiplin', 'Kemampuan_Bahasa_Asing', 'Hafalan_Rumus_Periodik', 'Teliti_Unsur_Kimia'];
+            $kolomYangDiambil = [
+                'Ranking_Kelas',
+                'Disiplin',
+                'Kemampuan_Bahasa_Asing',
+                'Hafalan_Rumus_Periodik',
+                'Teliti_Unsur_Kimia'
+            ];
 
             // Looping untuk mengambil nilai terbesar per kolom
             foreach ($perhitunganKriteriaPerAlternatif as $data) {
@@ -76,7 +82,13 @@ class ApiMetodeEntropyController extends Controller
             $lowestValues = [];
 
             // Tentukan daftar kolom yang ingin diambil
-            $kolomYangDiambil = ['Riwayat_Sanksi', 'Umur', 'Sering_Terlambat', 'Jumlah_Alpha', 'Presentasi_Kekalahan'];
+            $kolomYangDiambil = [
+                'Riwayat_Sanksi',
+                'Umur',
+                'Sering_Terlambat',
+                'Jumlah_Alpha',
+                'Presentasi_Kekalahan'
+            ];
 
             // Looping untuk mengambil nilai terkecil per kolom
             foreach ($perhitunganKriteriaPerAlternatif as $data) {
@@ -192,7 +204,114 @@ class ApiMetodeEntropyController extends Controller
         ->get();
 
 
-        // Lanjutkan dengan operasi lain yang diperlukan
+        // Perhitungan Pencarian Nilai Entropy
+        // Menghitung Nilai ln dengan Membagi Jumlah Alternatif
+        $jumlahAlternatif = $perhitunganKriteriaPerAlternatif->count();
+
+        $hasilLn = log($jumlahAlternatif);
+
+        // Mencari Nilai K
+        $hasilNilaiK = 1 / $hasilLn;
+
+        // Perhitungan Pencarian Nilai Entropy Tiap Kriteria
+        $nilaiEntropi = [];
+
+        $nilaiTotal = [
+            'nilaiTotal_Ranking_Kelas' => 0,
+            'nilaiTotal_Disiplin' => 0,
+            'nilaiTotal_Kemampuan_Bahasa_Asing' => 0,
+            'nilaiTotal_Hafalan_Rumus_Periodik' => 0,
+            'nilaiTotal_Teliti_Unsur_Kimia' => 0,
+            'nilaiTotal_Riwayat_Sanksi' => 0,
+            'nilaiTotal_Umur' => 0,
+            'nilaiTotal_Sering_Terlambat' => 0,
+            'nilaiTotal_Jumlah_Alpha' => 0,
+            'nilaiTotal_Presentasi_Kekalahan' => 0,
+        ];
+
+        foreach ($nilaiEntropyNormalisasi as $data) {
+            $nilai_e_kriteria_Ranking_Kelas = ($data->nilai_normalisasi_Ranking_Kelas / $jumlahNormalisasi['jumlah_normalisasi_Ranking_Kelas']) * log($data->nilai_normalisasi_Ranking_Kelas / $jumlahNormalisasi['jumlah_normalisasi_Ranking_Kelas']);
+            $nilai_e_kriteria_Disiplin = ($data->nilai_normalisasi_Disiplin / $jumlahNormalisasi['jumlah_normalisasi_Disiplin']) * log($data->nilai_normalisasi_Disiplin / $jumlahNormalisasi['jumlah_normalisasi_Disiplin']);
+            $nilai_e_kriteria_Kemampuan_Bahasa_Asing = ($data->nilai_normalisasi_Kemampuan_Bahasa_Asing / $jumlahNormalisasi['jumlah_normalisasi_Kemampuan_Bahasa_Asing']) * log($data->nilai_normalisasi_Kemampuan_Bahasa_Asing / $jumlahNormalisasi['jumlah_normalisasi_Kemampuan_Bahasa_Asing']);
+            $nilai_e_kriteria_Hafalan_Rumus_Periodik = ($data->nilai_normalisasi_Hafalan_Rumus_Periodik / $jumlahNormalisasi['jumlah_normalisasi_Hafalan_Rumus_Periodik']) * log($data->nilai_normalisasi_Hafalan_Rumus_Periodik / $jumlahNormalisasi['jumlah_normalisasi_Hafalan_Rumus_Periodik']);
+            $nilai_e_kriteria_Teliti_Unsur_Kimia = ($data->nilai_normalisasi_Teliti_Unsur_Kimia / $jumlahNormalisasi['jumlah_normalisasi_Teliti_Unsur_Kimia']) * log($data->nilai_normalisasi_Teliti_Unsur_Kimia / $jumlahNormalisasi['jumlah_normalisasi_Teliti_Unsur_Kimia']);
+            $nilai_e_kriteria_Riwayat_Sanksi = ($data->nilai_normalisasi_Riwayat_Sanksi / $jumlahNormalisasi['jumlah_normalisasi_Riwayat_Sanksi']) * log($data->nilai_normalisasi_Riwayat_Sanksi / $jumlahNormalisasi['jumlah_normalisasi_Riwayat_Sanksi']);
+            $nilai_e_kriteria_Umur = ($data->nilai_normalisasi_Umur / $jumlahNormalisasi['jumlah_normalisasi_Umur']) * log($data->nilai_normalisasi_Umur / $jumlahNormalisasi['jumlah_normalisasi_Umur']);
+            $nilai_e_kriteria_Sering_Terlambat = ($data->nilai_normalisasi_Sering_Terlambat / $jumlahNormalisasi['jumlah_normalisasi_Sering_Terlambat']) * log($data->nilai_normalisasi_Sering_Terlambat / $jumlahNormalisasi['jumlah_normalisasi_Sering_Terlambat']);
+            $nilai_e_kriteria_Jumlah_Alpha = ($data->nilai_normalisasi_Jumlah_Alpha / $jumlahNormalisasi['jumlah_normalisasi_Jumlah_Alpha']) * log($data->nilai_normalisasi_Jumlah_Alpha / $jumlahNormalisasi['jumlah_normalisasi_Jumlah_Alpha']);
+            $nilai_e_kriteria_Presentasi_Kekalahan = ($data->nilai_normalisasi_Presentasi_Kekalahan / $jumlahNormalisasi['jumlah_normalisasi_Presentasi_Kekalahan']) * log($data->nilai_normalisasi_Presentasi_Kekalahan / $jumlahNormalisasi['jumlah_normalisasi_Presentasi_Kekalahan']);
+
+            $nilaiTotal['nilaiTotal_Ranking_Kelas'] += $nilai_e_kriteria_Ranking_Kelas;
+            $nilaiTotal['nilaiTotal_Disiplin'] += $nilai_e_kriteria_Disiplin;
+            $nilaiTotal['nilaiTotal_Kemampuan_Bahasa_Asing'] += $nilai_e_kriteria_Kemampuan_Bahasa_Asing;
+            $nilaiTotal['nilaiTotal_Hafalan_Rumus_Periodik'] += $nilai_e_kriteria_Hafalan_Rumus_Periodik;
+            $nilaiTotal['nilaiTotal_Teliti_Unsur_Kimia'] += $nilai_e_kriteria_Teliti_Unsur_Kimia;
+            $nilaiTotal['nilaiTotal_Riwayat_Sanksi'] += $nilai_e_kriteria_Riwayat_Sanksi;
+            $nilaiTotal['nilaiTotal_Umur'] += $nilai_e_kriteria_Umur;
+            $nilaiTotal['nilaiTotal_Sering_Terlambat'] += $nilai_e_kriteria_Sering_Terlambat;
+            $nilaiTotal['nilaiTotal_Jumlah_Alpha'] += $nilai_e_kriteria_Jumlah_Alpha;
+            $nilaiTotal['nilaiTotal_Presentasi_Kekalahan'] += $nilai_e_kriteria_Presentasi_Kekalahan;
+
+        }
+        // Tambahkan total nilai dan dikali dengan hasilNilaiK ke dalam array $nilaiEntropi
+        $nilaiEntropi[] = [
+            'id_perhitungan' => $request->perhitungan_id,
+            'nilai_e_kriteria_Ranking_Kelas' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Ranking_Kelas'],
+            'nilai_e_kriteria_Disiplin' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Disiplin'],
+            'nilai_e_kriteria_Kemampuan_Bahasa_Asing' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Kemampuan_Bahasa_Asing'],
+            'nilai_e_kriteria_Hafalan_Rumus_Periodik' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Hafalan_Rumus_Periodik'],
+            'nilai_e_kriteria_Teliti_Unsur_Kimia' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Teliti_Unsur_Kimia'],
+            'nilai_e_kriteria_Riwayat_Sanksi' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Riwayat_Sanksi'],
+            'nilai_e_kriteria_Umur' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Umur'],
+            'nilai_e_kriteria_Sering_Terlambat' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Sering_Terlambat'],
+            'nilai_e_kriteria_Jumlah_Alpha' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Jumlah_Alpha'],
+            'nilai_e_kriteria_Presentasi_Kekalahan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Presentasi_Kekalahan'],
+        ];
+
+        try {
+            DB::table('tabel_nilai_entropies')->insert($nilaiEntropi);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()]);
+        }
+
+        $perhitunganNilaiEntropy = DB::table('tabel_nilai_entropies')
+        ->where('id_perhitungan', $request->perhitungan_id)
+        ->get();
+
+        $total = DB::table('tabel_nilai_entropies')
+        ->where('id_perhitungan', $request->perhitungan_id)
+        ->selectRaw('SUM(
+            nilai_e_kriteria_Ranking_Kelas +
+            nilai_e_kriteria_Disiplin +
+            nilai_e_kriteria_Kemampuan_Bahasa_Asing +
+            nilai_e_kriteria_Hafalan_Rumus_Periodik +
+            nilai_e_kriteria_Teliti_Unsur_Kimia +
+            nilai_e_kriteria_Riwayat_Sanksi +
+            nilai_e_kriteria_Umur +
+            nilai_e_kriteria_Sering_Terlambat +
+            nilai_e_kriteria_Jumlah_Alpha +
+            nilai_e_kriteria_Presentasi_Kekalahan
+        ) as total')
+        ->value('total');
+
+    TabelTotalNilaiEntropy::updateOrCreate(
+        ['hitung_id' => $request->perhitungan_id],
+        ['total_nilai_e_entropy' => $total]
+    );
+
+    $TabelTotalNilaiEntropy = DB::table('tabel_total_nilai_entropies')
+        ->where('hitung_id', $request->perhitungan_id)
+        ->get();
+
+
+
+
+
+
+        // Perhitungan Jumlah Total Nilai Entropy
+
+
+        // Perhitungan Bobot Nilai Entropy Per Kriteria
 
 
         $response = [
@@ -201,7 +320,9 @@ class ApiMetodeEntropyController extends Controller
             'nilaimaxbenefit' => $nilaimaxbenefit,
             'nilaimincost' => $nilaimincost,
             'nilaiEntropyNormalisasi' => $nilaiEntropyNormalisasi,
-            'jumlahNilaiNormalisasi' => $perhitunganJumlahNormalisasiEntropy
+            'jumlahNilaiNormalisasi' => $perhitunganJumlahNormalisasiEntropy,
+            'nilaiEntropy' => $perhitunganNilaiEntropy,
+            'TabelTotalNilaiEntropy' => $TabelTotalNilaiEntropy,
         ];
 
         return response()->json($response);

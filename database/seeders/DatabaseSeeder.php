@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             PerhitunganKriteriaPerAlternatifSeeder::class,
             // JumlahNormalisasiEntropySeeder::class,
             TabelBobotEntropySeeder::class,
-            TabelNilaiEntropySeeder::class,
+            // TabelNilaiEntropySeeder::class,
             TabelTotalNilaiEntropySeeder::class,
             // MaxBenefitSeeder::class
         ]);
