@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\DB;
 
 class ApiMetodeEntropyController extends Controller
 {
-    public function PerhitunganTotal(Request $request)
+    public function PerhitunganTotal($id_perhitungan)
     {
-        $perhitunganID = $request->perhitungan_id;
+        $perhitunganID = $id_perhitungan;
         $perhitungans = DB::table('perhitungan')
-            ->where('id', $request->perhitungan_id)
+            ->where('id', $id_perhitungan)
             ->get();
         $perhitunganKriteriaPerAlternatif = DB::table('perhitungan_kriteria_per_alternatif')
-            ->where('id_perhitungan', $request->perhitungan_id)
+            ->where('id_perhitungan', $id_perhitungan)
             ->get();
 
 
@@ -81,9 +81,8 @@ class ApiMetodeEntropyController extends Controller
         }
 
         $nilaimaxbenefit = DB::table('nilai_max_tiap_alternatif_benefit')
-            ->where('id_perhitungan', $request->perhitungan_id)
+            ->where('id_perhitungan', $id_perhitungan)
             ->get();
-
         //Mengambil Nilai Min Cost
         try {
             // Inisialisasi array kosong untuk menyimpan nilai terkecil per kolom
@@ -124,7 +123,7 @@ class ApiMetodeEntropyController extends Controller
         }
 
         $nilaimincost = DB::table('nilai_min_tiap_alternatif_cost')
-            ->where('id_perhitungan', $request->perhitungan_id)
+            ->where('id_perhitungan', $id_perhitungan)
             ->get();
 
         //Membuat Hasil Normalisasi dengan membagi Nilai Max dan Min Tiap Kriteria Per Alternatif
@@ -138,7 +137,7 @@ class ApiMetodeEntropyController extends Controller
 
         foreach ($perhitunganKriteriaPerAlternatif as $data) {
             $entropies[] = [
-                'id_perhitungan' => $request->perhitungan_id,
+                'id_perhitungan' => $id_perhitungan,
                 'nilai_normalisasi_aksesbilitas' => $data->aksesbilitas / $maxValues->max_aksesbilitas,
                 'nilai_normalisasi_keamanan' => $data->keamanan / $maxValues->max_keamanan,
                 'nilai_normalisasi_kenyamanan' => $data->kenyamanan / $maxValues->max_kenyamanan,
@@ -163,12 +162,12 @@ class ApiMetodeEntropyController extends Controller
 
         // Mengambil data nilai entropy normalisasi
         $nilaiEntropyNormalisasi = DB::table('hasil_normalisasi_entropy')
-            ->where('id_perhitungan', $request->perhitungan_id)
+            ->where('id_perhitungan', $id_perhitungan)
             ->get();
 
         //Membuat Jumlah Akhir Nilai Hasil Normalisasi Entropy dengan Menjumlahkan Nilai Seluruh Kolom
         $jumlahNormalisasi = [
-            'id_perhitungan' => $request->perhitungan_id,
+            'id_perhitungan' => $id_perhitungan,
             'jumlah_normalisasi_aksesbilitas' => 0,
             'jumlah_normalisasi_keamanan' => 0,
             'jumlah_normalisasi_kenyamanan' => 0,
@@ -203,7 +202,7 @@ class ApiMetodeEntropyController extends Controller
         }
 
         $perhitunganJumlahNormalisasiEntropy = DB::table('jumlah_normalisasi_entropies')
-            ->where('id_perhitungan', $request->perhitungan_id)
+            ->where('id_perhitungan', $id_perhitungan)
             ->get();
 
 
@@ -257,7 +256,7 @@ class ApiMetodeEntropyController extends Controller
         }
         // Tambahkan total nilai dan dikali dengan hasilNilaiK ke dalam array $nilaiEntropi
         $nilaiEntropi[] = [
-            'id_perhitungan' => $request->perhitungan_id,
+            'id_perhitungan' => $id_perhitungan,
             'nilai_e_kriteria_aksesbilitas' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_aksesbilitas'],
             'nilai_e_kriteria_keamanan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_keamanan'],
             'nilai_e_kriteria_kenyamanan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_kenyamanan'],
@@ -278,12 +277,12 @@ class ApiMetodeEntropyController extends Controller
         }
 
         $perhitunganNilaiEntropy = DB::table('tabel_nilai_entropies')
-            ->where('id_perhitungan', $request->perhitungan_id)
+            ->where('id_perhitungan', $id_perhitungan)
             ->get();
 
         // Perhitungan Total Nilai Entropy
         $total = DB::table('tabel_nilai_entropies')
-            ->where('id_perhitungan', $request->perhitungan_id)
+            ->where('id_perhitungan', $id_perhitungan)
             ->selectRaw('SUM(
             nilai_e_kriteria_aksesbilitas +
             nilai_e_kriteria_keamanan +
@@ -300,14 +299,14 @@ class ApiMetodeEntropyController extends Controller
         // dd($total);
 
         TabelTotalNilaiEntropy::updateOrCreate(
-            ['hitung_id' => $request->perhitungan_id],
+            ['hitung_id' => $id_perhitungan],
             ['total_nilai_e_entropy' => $total]
         );
 
         // Perhitungan Bobot Nilai Entropy Per Kriteria
         $TabelTotalNilaiEntropy = DB::table('tabel_total_nilai_entropies')
             ->select('total_nilai_e_entropy')
-            ->where('hitung_id', $request->perhitungan_id)
+            ->where('hitung_id', $id_perhitungan)
             ->get();
 
         $totalNilaiEntropy = $TabelTotalNilaiEntropy->first()->total_nilai_e_entropy;
@@ -341,7 +340,7 @@ class ApiMetodeEntropyController extends Controller
 
         $tabelBobot->save();
         $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
-            ->where('hitung_id', $request->perhitungan_id)
+            ->where('hitung_id', $id_perhitungan)
             ->get();
 
 
@@ -360,6 +359,7 @@ class ApiMetodeEntropyController extends Controller
 
         return response()->json($response);
     }
+
 
     public function TambahDataKriteriaDanAlternatif(Request $request)
     {
@@ -405,10 +405,15 @@ class ApiMetodeEntropyController extends Controller
             $perhitunganKriteriaPerAlternatifData[] = $perhitunganKriteriaPerAlternatif;
         }
 
-        return response()->json([
+        $perhitunganTotalResponse = $this->PerhitunganTotal($perhitungan->id);
+
+        $response = [
             'message' => 'Data berhasil disimpan',
             'perhitungan' => $perhitungan,
             'perhitungan_kriteria_per_alternatif' => $perhitunganKriteriaPerAlternatifData,
-        ], 201);
+            'perhitungan_total' => $perhitunganTotalResponse,
+        ];
+
+        return response()->json($response, 201);
     }
 }

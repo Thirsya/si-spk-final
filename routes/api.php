@@ -35,6 +35,6 @@ Route::post(
     ['as' => 'api']
 )->name('api.kriteria.per.alternatif.store');
 
-Route::post('perhitungantotal', [ApiMetodeEntropyController::class, 'PerhitunganTotal'])->name('api.test.index');
+Route::get('perhitungantotal/{id_perhitungan}', [ApiMetodeEntropyController::class, 'PerhitunganTotal'])->name('api.test.index');
 Route::post('inputKriteriaAlternatif', [ApiMetodeEntropyController::class, 'TambahDataKriteriaDanAlternatif'])
     ->name('api.input.kriteria.alternatif');
