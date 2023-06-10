@@ -1,9 +1,78 @@
 import { Navback } from "../components/navback"
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import * as XLSX from 'xlsx';
+import { useState } from 'react';
 
 export const Hitung = () => {
     const navigate = useNavigate()
+    const [jsonData, setJsonData] = useState([]);
+
+    const [formData, setFormData] = useState({
+        judul_perhitungan: 'Judul 1',
+        alternatif: Array.from({ length: jsonData.length }, () => ({
+            nama_restoran: 0,
+            aksesbilitas: 0,
+            keamanan: 0,
+            kenyamanan: 0,
+            luas_bangunan: 0,
+            luas_parkir: 0,
+            keramaian: 0,
+            kebersihan: 0,
+            fasilitas: 0,
+            jarak_dengan_pusat_kota: 0,
+            harga: 0
+        }))
+    });
+
+    const handleChange = (event, index) => {
+        const { name, value } = event.target;
+        const updatedFormData = { ...formData };
+        updatedFormData.alternatif[index][name] = value;
+        setFormData(updatedFormData);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const jsonData = JSON.stringify(formData);
+
+        fetch('url_ke_json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: jsonData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Lakukan sesuatu setelah berhasil mengirim form
+            })
+            .catch(error => {
+                // Tangani error jika terjadi
+            });
+    };
+
+
+    const convertExcelToJson = (file) => {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+
+            const sheetName = workbook.SheetNames[0]; // Menggunakan sheet pertama
+            const worksheet = workbook.Sheets[sheetName];
+
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true, defval: "" });
+
+            console.log(jsonData); // JSON hasil konversi
+            setJsonData(jsonData);
+        };
+
+        reader.readAsArrayBuffer(file);
+    };
+
     return (
         <>
 
@@ -77,8 +146,8 @@ export const Hitung = () => {
                 </div>
                 <div className="pb-4">
                     <h3 className="p-4">Tabel Pernyataan Kriteria</h3>
-                    <div class="row">
-                        <div class="col-6">
+                    <div className="row">
+                        <div className="col-6">
                             <div className="px-3">
                                 <h5 style={{ fontWeight: 'bold' }}>C1 : Aksesbilitas</h5>
                                 <table className="table table-bordered mx-auto" style={{ width: '85%' }}>
@@ -251,7 +320,7 @@ export const Hitung = () => {
                             </div>
 
                         </div>
-                        <div class="col-6">
+                        <div className="col-6">
                             <div className="px-3">
                                 <h5 style={{ fontWeight: 'bold' }}>C6 : Luas Bangunan</h5>
                                 <table className="table table-bordered mx-auto" style={{ width: '85%' }}>
@@ -430,11 +499,11 @@ export const Hitung = () => {
 
                 <div className="border border-2 p-3">
                     <h3 className="mb-5 p-3">Form Input Data</h3>
-                    <form action="">
+                    <form action="" onSubmit={handleSubmit}>
                         <div className="ps-5" style={{ width: '50%' }}>
                             <div className="mb-5">
                                 <label htmlFor="judul" className="form-label">Judul Perhitungan</label>
-                                <input type="text" className="form-control" id="judul" required />
+                                <input type="text" className="form-control" name="judul_perhitungan" value={formData.judul_perhitungan} onChange={(event) => setFormData({ ...formData, judul_perhitungan: event.target.value })} required />
                             </div>
                             <p className="m-0">Contoh Inputan Excel</p>
                             <img src="img/contoh.png" alt="" className="p-3" />
@@ -442,101 +511,128 @@ export const Hitung = () => {
                                 <div className="d-flex">
                                     <div className="">
                                         <label htmlFor="excel" className="form-label">Input Data Kiteria per alternatif</label><br />
-                                        <input type="file" className="form-control" id="excel" required />
+                                        <input type="file" className="form-control" id="excel" required onChange={(e) => convertExcelToJson(e.target.files[0])} />
                                     </div>
-                                    <button type="button" className="btn btn-success btn-sm text-white m-3" >pilih</button>
                                 </div>
                             </div>
                             <div className="py-4">
                                 <h3 className="p-4">Preview Data</h3>
-                                <form action="">
-                                    <table className="table table-bordered" style={{ width: '180%' }}>
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Siswa</th>
-                                                <th>C1</th>
-                                                <th>C2</th>
-                                                <th>C3</th>
-                                                <th>C4</th>
-                                                <th>C5</th>
-                                                <th>C6</th>
-                                                <th>C7</th>
-                                                <th>C8</th>
-                                                <th>C9</th>
-                                                <th>C10</th>
+                                <table className="table table-bordered" style={{ width: '180%' }} id="kriteria-table" >
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama Restoran</th>
+                                            <th>C1</th>
+                                            <th>C2</th>
+                                            <th>C3</th>
+                                            <th>C4</th>
+                                            <th>C5</th>
+                                            <th>C6</th>
+                                            <th>C7</th>
+                                            <th>C8</th>
+                                            <th>C9</th>
+                                            <th>C10</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {jsonData.slice(1).map((row, index) => (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                {row.map((data, dataIndex) => {
+                                                    if (typeof data === 'string') {
+                                                        formData.alternatif.nama_restoran = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="text" name="nama_restoran" required defaultValue={formData.alternatif.nama_restoran} style={{ border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 1) {
+                                                        formData.alternatif.aksesbilitas = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="aksesbilitas" required defaultValue={formData.alternatif.aksesbilitas} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 2) {
+                                                        formData.alternatif.keamanan = data
+                                                        return (
+                                                            <td td key={dataIndex} >
+                                                                <input type="number" name="keamanan" required defaultValue={formData.alternatif.keamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 3) {
+                                                        formData.alternatif.kenyamanan = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="kenyamanan" required defaultValue={formData.alternatif.kenyamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 4) {
+                                                        formData.alternatif.luas_bangunan = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="luas_bangunan" required defaultValue={formData.alternatif.luas_bangunan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 5) {
+                                                        formData.alternatif.luas_parkir = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="luas_parkir" required defaultValue={formData.alternatif.luas_parkir} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 6) {
+                                                        formData.alternatif.keramaian = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="keramaian" required defaultValue={formData.alternatif.keramaian} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 7) {
+                                                        formData.alternatif.kebersihan = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="kebersihan" required defaultValue={formData.alternatif.kebersihan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 8) {
+                                                        formData.alternatif.fasilitas = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="fasilitas" required defaultValue={formData.alternatif.fasilitas} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 9) {
+                                                        formData.alternatif.jarak_dengan_pusat_kota = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="jarak_dengan_pusat_kota" required defaultValue={formData.alternatif.jarak_dengan_pusat_kota} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    } else if (dataIndex == 10) {
+                                                        formData.alternatif.harga = data
+                                                        return (
+                                                            <td key={dataIndex}>
+                                                                <input type="number" name="harga" required defaultValue={formData.alternatif.harga} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                            </td>
+                                                        );
+                                                    }
+                                                })}
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Katsu Kyodai</td>
-                                                <td><input type="number" required value="1" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Warunk WOW KWB - Malang</td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="1" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Ayam goreng nelongso</td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="1" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Sate dan Bakso Abah Acil</td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="1" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="3" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="2" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                                <td><input type="number" required value="4" style={{ width: '40px', border: 'none' }} /></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </form>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                             <div className="d-flex flex-row-reverse" style={{ width: '200%' }}>
-                                <button type="submit" className="btn btn-success btn-lg text-white m-3" onClick={() => navigate('/langkah')} >Hitung</button>
+                                {/* <button type="submit" className="btn btn-success btn-lg text-white m-3" onClick={() => navigate('/langkah')} >Hitung</button> */}
+                                <button type="submit" className="btn btn-success btn-lg text-white m-3">Hitung</button>
                                 <button type="reset" className="btn btn-danger btn-lg text-white m-3" >Reset</button>
                             </div>
                         </div>
                     </form>
-                </div>
+                </div >
 
-            </div>
+            </div >
         </>
     );
 }
