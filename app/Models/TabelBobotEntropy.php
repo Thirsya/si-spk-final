@@ -13,16 +13,16 @@ class TabelBobotEntropy extends Model
 
     protected $fillable = [
         'hitung_id',
-        'bobot_entropy_Ranking_Kelas',
-        'bobot_entropy_Disiplin',
-        'bobot_entropy_Kemampuan_Bahasa_Asing',
-        'bobot_entropy_Hafalan_Rumus_Periodik',
-        'bobot_entropy_Teliti_Unsur_Kimia',
-        'bobot_entropy_Riwayat_Sanksi',
-        'bobot_entropy_Umur',
-        'bobot_entropy_Sering_Terlambat',
-        'bobot_entropy_Jumlah_Alpha',
-        'bobot_entropy_Presentasi_Kekalahan',
+        'bobot_entropy_aksesbilitas',
+        'bobot_entropy_keamanan',
+        'bobot_entropy_kenyamanan',
+        'bobot_entropy_luas_bangunan',
+        'bobot_entropy_luas_parkir',
+        'bobot_entropy_keramaian',
+        'bobot_entropy_kebersihan',
+        'bobot_entropy_fasilitas',
+        'bobot_entropy_jarak_dengan_pusat_kota',
+        'bobot_entropy_harga',
     ];
 
     public function perhitungan()

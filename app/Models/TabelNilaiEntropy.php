@@ -13,16 +13,16 @@ class TabelNilaiEntropy extends Model
 
     protected $fillable = [
         'id_perhitungan',
-        'nilai_e_kriteria_Ranking_Kelas',
-        'nilai_e_kriteria_Disiplin',
-        'nilai_e_kriteria_Kemampuan_Bahasa_Asing',
-        'nilai_e_kriteria_Hafalan_Rumus_Periodik',
-        'nilai_e_kriteria_Teliti_Unsur_Kimia',
-        'nilai_e_kriteria_Riwayat_Sanksi',
-        'nilai_e_kriteria_Umur',
-        'nilai_e_kriteria_Sering_Terlambat',
-        'nilai_e_kriteria_Jumlah_Alpha',
-        'nilai_e_kriteria_Presentasi_Kekalahan',
+        'nilai_e_kriteria_aksesbilitas',
+        'nilai_e_kriteria_keamanan',
+        'nilai_e_kriteria_kenyamanan',
+        'nilai_e_kriteria_luas_bangunan',
+        'nilai_e_kriteria_luas_parkir',
+        'nilai_e_kriteria_keramaian',
+        'nilai_e_kriteria_kebersihan',
+        'nilai_e_kriteria_fasilitas',
+        'nilai_e_kriteria_jarak_dengan_pusat_kota',
+        'nilai_e_kriteria_harga',
     ];
 
     public function perhitungan()

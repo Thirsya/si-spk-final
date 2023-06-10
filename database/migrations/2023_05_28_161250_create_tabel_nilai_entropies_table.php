@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('tabel_nilai_entropies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perhitungan')->nullable();
-            $table->double('nilai_e_kriteria_Ranking_Kelas')->nullable();
-            $table->double('nilai_e_kriteria_Disiplin')->nullable();
-            $table->double('nilai_e_kriteria_Kemampuan_Bahasa_Asing')->nullable();
-            $table->double('nilai_e_kriteria_Hafalan_Rumus_Periodik')->nullable();
-            $table->double('nilai_e_kriteria_Teliti_Unsur_Kimia')->nullable();
-            $table->double('nilai_e_kriteria_Riwayat_Sanksi')->nullable();
-            $table->double('nilai_e_kriteria_Umur')->nullable();
-            $table->double('nilai_e_kriteria_Sering_Terlambat')->nullable();
-            $table->double('nilai_e_kriteria_Jumlah_Alpha')->nullable();
-            $table->double('nilai_e_kriteria_Presentasi_Kekalahan')->nullable();
+            $table->double('nilai_e_kriteria_aksesbilitas')->nullable();
+            $table->double('nilai_e_kriteria_keamanan')->nullable();
+            $table->double('nilai_e_kriteria_kenyamanan')->nullable();
+            $table->double('nilai_e_kriteria_luas_bangunan')->nullable();
+            $table->double('nilai_e_kriteria_luas_parkir')->nullable();
+            $table->double('nilai_e_kriteria_keramaian')->nullable();
+            $table->double('nilai_e_kriteria_kebersihan')->nullable();
+            $table->double('nilai_e_kriteria_fasilitas')->nullable();
+            $table->double('nilai_e_kriteria_jarak_dengan_pusat_kota')->nullable();
+            $table->double('nilai_e_kriteria_harga')->nullable();
             $table->foreign('id_perhitungan')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });

@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('tabel_bobot_entropies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('hitung_id')->nullable();
-            $table->double('bobot_entropy_Ranking_Kelas')->nullable();
-            $table->double('bobot_entropy_Disiplin')->nullable();
-            $table->double('bobot_entropy_Kemampuan_Bahasa_Asing')->nullable();
-            $table->double('bobot_entropy_Hafalan_Rumus_Periodik')->nullable();
-            $table->double('bobot_entropy_Teliti_Unsur_Kimia')->nullable();
-            $table->double('bobot_entropy_Riwayat_Sanksi')->nullable();
-            $table->double('bobot_entropy_Umur')->nullable();
-            $table->double('bobot_entropy_Sering_Terlambat')->nullable();
-            $table->double('bobot_entropy_Jumlah_Alpha')->nullable();
-            $table->double('bobot_entropy_Presentasi_Kekalahan')->nullable();
+            $table->double('bobot_entropy_aksesbilitas')->nullable();
+            $table->double('bobot_entropy_keamanan')->nullable();
+            $table->double('bobot_entropy_kenyamanan')->nullable();
+            $table->double('bobot_entropy_luas_bangunan')->nullable();
+            $table->double('bobot_entropy_luas_parkir')->nullable();
+            $table->double('bobot_entropy_keramaian')->nullable();
+            $table->double('bobot_entropy_kebersihan')->nullable();
+            $table->double('bobot_entropy_fasilitas')->nullable();
+            $table->double('bobot_entropy_jarak_dengan_pusat_kota')->nullable();
+            $table->double('bobot_entropy_harga')->nullable();
             $table->foreign('hitung_id')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });
