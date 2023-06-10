@@ -28,11 +28,13 @@ Route::get(
     'kriteria-per-alternatif',
     [ApiPerhitunganKriteriaPerAlternatifController::class, 'index'],
     ['as' => 'api']
-    )->name('api.kriteria.per.alternatif.index');
-    Route::post(
-        'kriteria-per-alternatif',
-        [ApiPerhitunganKriteriaPerAlternatifController::class, 'store'],
-        ['as' => 'api']
-        )->name('api.kriteria.per.alternatif.store');
+)->name('api.kriteria.per.alternatif.index');
+Route::post(
+    'kriteria-per-alternatif',
+    [ApiPerhitunganKriteriaPerAlternatifController::class, 'store'],
+    ['as' => 'api']
+)->name('api.kriteria.per.alternatif.store');
 
 Route::post('perhitungantotal', [ApiMetodeEntropyController::class, 'PerhitunganTotal'])->name('api.test.index');
+Route::post('inputKriteriaAlternatif', [ApiMetodeEntropyController::class, 'TambahDataKriteriaDanAlternatif'])
+    ->name('api.input.kriteria.alternatif');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PerhitunganKriteriaPerAlternatif;
 use App\Models\NilaiMaxTiapAlternatifBenefit;
 use App\Models\NilaiMinTiapAlternatifCost;
+use App\Models\Perhitungan;
 use App\Models\TabelBobotEntropy;
 use App\Models\TabelTotalNilaiEntropy;
 use Illuminate\Support\Facades\DB;
@@ -193,7 +194,7 @@ class ApiMetodeEntropyController extends Controller
             $jumlahNormalisasi['jumlah_normalisasi_harga'] += $data['nilai_normalisasi_harga'];
         }
         // dd($jumlahNormalisasi);
-       // Simpan nilai jumlah entropy normalisasi ke dalam tabel "jumlah_normalisasi_entropies"
+        // Simpan nilai jumlah entropy normalisasi ke dalam tabel "jumlah_normalisasi_entropies"
         try {
             DB::table('jumlah_normalisasi_entropies')->insert([$jumlahNormalisasi]);
         } catch (\Exception $e) {
@@ -202,8 +203,8 @@ class ApiMetodeEntropyController extends Controller
         }
 
         $perhitunganJumlahNormalisasiEntropy = DB::table('jumlah_normalisasi_entropies')
-        ->where('id_perhitungan', $request->perhitungan_id)
-        ->get();
+            ->where('id_perhitungan', $request->perhitungan_id)
+            ->get();
 
 
         // Perhitungan Pencarian Nilai Entropy
@@ -253,7 +254,6 @@ class ApiMetodeEntropyController extends Controller
             $nilaiTotal['nilaiTotal_fasilitas'] += $nilai_e_kriteria_fasilitas;
             $nilaiTotal['nilaiTotal_jarak_dengan_pusat_kota'] += $nilai_e_kriteria_jarak_dengan_pusat_kota;
             $nilaiTotal['nilaiTotal_harga'] += $nilai_e_kriteria_harga;
-
         }
         // Tambahkan total nilai dan dikali dengan hasilNilaiK ke dalam array $nilaiEntropi
         $nilaiEntropi[] = [
@@ -278,13 +278,13 @@ class ApiMetodeEntropyController extends Controller
         }
 
         $perhitunganNilaiEntropy = DB::table('tabel_nilai_entropies')
-        ->where('id_perhitungan', $request->perhitungan_id)
-        ->get();
+            ->where('id_perhitungan', $request->perhitungan_id)
+            ->get();
 
         // Perhitungan Total Nilai Entropy
         $total = DB::table('tabel_nilai_entropies')
-        ->where('id_perhitungan', $request->perhitungan_id)
-        ->selectRaw('SUM(
+            ->where('id_perhitungan', $request->perhitungan_id)
+            ->selectRaw('SUM(
             nilai_e_kriteria_aksesbilitas +
             nilai_e_kriteria_keamanan +
             nilai_e_kriteria_kenyamanan +
@@ -296,7 +296,7 @@ class ApiMetodeEntropyController extends Controller
             nilai_e_kriteria_jarak_dengan_pusat_kota +
             nilai_e_kriteria_harga
         ) as total')
-        ->value('total');
+            ->value('total');
         // dd($total);
 
         TabelTotalNilaiEntropy::updateOrCreate(
@@ -324,21 +324,21 @@ class ApiMetodeEntropyController extends Controller
         $nilai_e_kriteria_harga_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_harga;
 
 
-        $tabelBobot = New TabelBobotEntropy([
-        'hitung_id' => $perhitunganID,
-        'bobot_entropy_aksesbilitas' => ((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_aksesbilitas_final)),
-        'bobot_entropy_keamanan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_keamanan_final)),
-        'bobot_entropy_kenyamanan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_kenyamanan_final)),
-        'bobot_entropy_luas_bangunan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_luas_bangunan_final)),
-        'bobot_entropy_luas_parkir'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_luas_parkir_final)),
-        'bobot_entropy_keramaian'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_keramaian_final)),
-        'bobot_entropy_kebersihan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_kebersihan_final)),
-        'bobot_entropy_fasilitas'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_fasilitas_final)),
-        'bobot_entropy_jarak_dengan_pusat_kota'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_jarak_dengan_pusat_kota_final)),
-        'bobot_entropy_harga'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_harga_final)),
+        $tabelBobot = new TabelBobotEntropy([
+            'hitung_id' => $perhitunganID,
+            'bobot_entropy_aksesbilitas' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_aksesbilitas_final)),
+            'bobot_entropy_keamanan' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_keamanan_final)),
+            'bobot_entropy_kenyamanan' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_kenyamanan_final)),
+            'bobot_entropy_luas_bangunan' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_luas_bangunan_final)),
+            'bobot_entropy_luas_parkir' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_luas_parkir_final)),
+            'bobot_entropy_keramaian' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_keramaian_final)),
+            'bobot_entropy_kebersihan' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_kebersihan_final)),
+            'bobot_entropy_fasilitas' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_fasilitas_final)),
+            'bobot_entropy_jarak_dengan_pusat_kota' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_jarak_dengan_pusat_kota_final)),
+            'bobot_entropy_harga' => ((1 / (10 - $totalNilaiEntropy)) * (1 - $nilai_e_kriteria_harga_final)),
 
         ]);
-        
+
         $tabelBobot->save();
         $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
             ->where('hitung_id', $request->perhitungan_id)
@@ -359,5 +359,24 @@ class ApiMetodeEntropyController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    public function TambahDataKriteriaDanAlternatif(Request $request)
+    {
+        $request->validate([
+            'judul_perhitungan' => 'required',
+        ]);
+
+        $perhitungan = new Perhitungan();
+
+        $perhitungan->judul_perhitungan = $request->judul_perhitungan;
+        $perhitungan->waktu_perhitungan = now();
+
+        $perhitungan->save();
+
+        return response()->json([
+            'message' => 'Input Judul  berhasil disimpan',
+            'perhitungan' => $perhitungan,
+        ], 201);
     }
 }
