@@ -34,11 +34,14 @@ class ApiMetodeEntropyController extends Controller
 
             // Tentukan daftar kolom yang ingin diambil
             $kolomYangDiambil = [
-                'Ranking_Kelas',
-                'Disiplin',
-                'Kemampuan_Bahasa_Asing',
-                'Hafalan_Rumus_Periodik',
-                'Teliti_Unsur_Kimia'
+                'aksesbilitas',
+                'keamanan',
+                'kenyamanan',
+                'luas_bangunan',
+                'luas_parkir',
+                'keramaian',
+                'kebersihan',
+                'fasilitas'
             ];
 
             // Looping untuk mengambil nilai terbesar per kolom
@@ -56,13 +59,17 @@ class ApiMetodeEntropyController extends Controller
             // Menyimpan nilai terbesar ke dalam tabel "nilai_max_tiap_alternatif_benefit"
             $nilaiMaxTiapAlternatifBenefit = new NilaiMaxTiapAlternatifBenefit([
                 'id_perhitungan' => $perhitunganID, // Ganti dengan nilai ID perhitungan yang sesuai
-                'max_Ranking_Kelas' => $highestValues['Ranking_Kelas'],
-                'max_Disiplin' => $highestValues['Disiplin'],
-                'max_Kemampuan_Bahasa_Asing' => $highestValues['Kemampuan_Bahasa_Asing'],
-                'max_Hafalan_Rumus_Periodik' => $highestValues['Hafalan_Rumus_Periodik'],
-                'max_Teliti_Unsur_Kimia' => $highestValues['Teliti_Unsur_Kimia'],
+                'max_aksesbilitas' => $highestValues['aksesbilitas'],
+                'max_keamanan' => $highestValues['keamanan'],
+                'max_kenyamanan' => $highestValues['kenyamanan'],
+                'max_luas_bangunan' => $highestValues['luas_bangunan'],
+                'max_luas_parkir' => $highestValues['luas_parkir'],
+                'max_keramaian' => $highestValues['keramaian'],
+                'max_kebersihan' => $highestValues['kebersihan'],
+                'max_fasilitas' => $highestValues['fasilitas'],
             ]);
 
+            // dd($nilaiMaxTiapAlternatifBenefit);
             $nilaiMaxTiapAlternatifBenefit->save();
 
             DB::commit();
@@ -76,7 +83,6 @@ class ApiMetodeEntropyController extends Controller
             ->where('id_perhitungan', $request->perhitungan_id)
             ->get();
 
-
         //Mengambil Nilai Min Cost
         try {
             // Inisialisasi array kosong untuk menyimpan nilai terkecil per kolom
@@ -84,11 +90,8 @@ class ApiMetodeEntropyController extends Controller
 
             // Tentukan daftar kolom yang ingin diambil
             $kolomYangDiambil = [
-                'Riwayat_Sanksi',
-                'Umur',
-                'Sering_Terlambat',
-                'Jumlah_Alpha',
-                'Presentasi_Kekalahan'
+                'jarak_dengan_pusat_kota',
+                'harga'
             ];
 
             // Looping untuk mengambil nilai terkecil per kolom
@@ -106,13 +109,10 @@ class ApiMetodeEntropyController extends Controller
             // Menyimpan nilai terkecil ke dalam tabel "nilai_min_tiap_alternatif"
             $nilaiMinTiapAlternatifCost = new NilaiMinTiapAlternatifCost([
                 'id_perhitungan' => $perhitunganID, // Ganti dengan nilai ID perhitungan yang sesuai
-                'min_Riwayat_Sanksi' => $lowestValues['Riwayat_Sanksi'],
-                'min_Umur' => $lowestValues['Umur'],
-                'min_Sering_Terlambat' => $lowestValues['Sering_Terlambat'],
-                'min_Jumlah_Alpha' => $lowestValues['Jumlah_Alpha'],
-                'min_Presentasi_Kekalahan' => $lowestValues['Presentasi_Kekalahan'],
+                'min_jarak_dengan_pusat_kota' => $lowestValues['jarak_dengan_pusat_kota'],
+                'min_harga' => $lowestValues['harga'],
             ]);
-
+            // dd($nilaiMinTiapAlternatifCost);
             $nilaiMinTiapAlternatifCost->save();
 
             DB::commit();
@@ -138,19 +138,20 @@ class ApiMetodeEntropyController extends Controller
         foreach ($perhitunganKriteriaPerAlternatif as $data) {
             $entropies[] = [
                 'id_perhitungan' => $request->perhitungan_id,
-                'nilai_normalisasi_Ranking_Kelas' => $data->Ranking_Kelas / $maxValues->max_Ranking_Kelas,
-                'nilai_normalisasi_Disiplin' => $data->Disiplin / $maxValues->max_Disiplin,
-                'nilai_normalisasi_Kemampuan_Bahasa_Asing' => $data->Kemampuan_Bahasa_Asing / $maxValues->max_Kemampuan_Bahasa_Asing,
-                'nilai_normalisasi_Hafalan_Rumus_Periodik' => $data->Hafalan_Rumus_Periodik / $maxValues->max_Hafalan_Rumus_Periodik,
-                'nilai_normalisasi_Teliti_Unsur_Kimia' => $data->Teliti_Unsur_Kimia / $maxValues->max_Teliti_Unsur_Kimia,
-                'nilai_normalisasi_Riwayat_Sanksi' =>  $minValues->min_Riwayat_Sanksi / $data->Riwayat_Sanksi,
-                'nilai_normalisasi_Umur' =>  $minValues->min_Umur / $data->Umur,
-                'nilai_normalisasi_Sering_Terlambat' => $minValues->min_Sering_Terlambat / $data->Sering_Terlambat,
-                'nilai_normalisasi_Jumlah_Alpha' => $minValues->min_Jumlah_Alpha / $data->Jumlah_Alpha,
-                'nilai_normalisasi_Presentasi_Kekalahan' => $minValues->min_Presentasi_Kekalahan / $data->Presentasi_Kekalahan,
+                'nilai_normalisasi_aksesbilitas' => $data->aksesbilitas / $maxValues->max_aksesbilitas,
+                'nilai_normalisasi_keamanan' => $data->keamanan / $maxValues->max_keamanan,
+                'nilai_normalisasi_kenyamanan' => $data->kenyamanan / $maxValues->max_kenyamanan,
+                'nilai_normalisasi_luas_bangunan' => $data->luas_bangunan / $maxValues->max_luas_bangunan,
+                'nilai_normalisasi_luas_parkir' => $data->luas_parkir / $maxValues->max_luas_parkir,
+                'nilai_normalisasi_keramaian' =>  $data->keramaian / $maxValues->max_keramaian,
+                'nilai_normalisasi_kebersihan' =>  $data->kebersihan / $maxValues->max_kebersihan,
+                'nilai_normalisasi_fasilitas' => $data->fasilitas / $maxValues->max_fasilitas,
+                'nilai_normalisasi_jarak_dengan_pusat_kota' =>
+                $minValues->min_jarak_dengan_pusat_kota / $data->jarak_dengan_pusat_kota,
+                'nilai_normalisasi_harga' => $minValues->min_harga / $data->harga,
             ];
         }
-
+        // dd($entropies);
         // Simpan nilai entropy normalisasi ke dalam tabel "hasil_normalisasi_entropy"
         try {
             DB::table('hasil_normalisasi_entropy')->insert($entropies);
@@ -167,31 +168,31 @@ class ApiMetodeEntropyController extends Controller
         //Membuat Jumlah Akhir Nilai Hasil Normalisasi Entropy dengan Menjumlahkan Nilai Seluruh Kolom
         $jumlahNormalisasi = [
             'id_perhitungan' => $request->perhitungan_id,
-            'jumlah_normalisasi_Ranking_Kelas' => 0,
-            'jumlah_normalisasi_Disiplin' => 0,
-            'jumlah_normalisasi_Kemampuan_Bahasa_Asing' => 0,
-            'jumlah_normalisasi_Hafalan_Rumus_Periodik' => 0,
-            'jumlah_normalisasi_Teliti_Unsur_Kimia' => 0,
-            'jumlah_normalisasi_Riwayat_Sanksi' => 0,
-            'jumlah_normalisasi_Umur' => 0,
-            'jumlah_normalisasi_Sering_Terlambat' => 0,
-            'jumlah_normalisasi_Jumlah_Alpha' => 0,
-            'jumlah_normalisasi_Presentasi_Kekalahan' => 0,
+            'jumlah_normalisasi_aksesbilitas' => 0,
+            'jumlah_normalisasi_keamanan' => 0,
+            'jumlah_normalisasi_kenyamanan' => 0,
+            'jumlah_normalisasi_luas_bangunan' => 0,
+            'jumlah_normalisasi_luas_parkir' => 0,
+            'jumlah_normalisasi_keramaian' => 0,
+            'jumlah_normalisasi_kebersihan' => 0,
+            'jumlah_normalisasi_fasilitas' => 0,
+            'jumlah_normalisasi_jarak_dengan_pusat_kota' => 0,
+            'jumlah_normalisasi_harga' => 0,
         ];
 
         foreach ($entropies as $data) {
-            $jumlahNormalisasi['jumlah_normalisasi_Ranking_Kelas'] += $data['nilai_normalisasi_Ranking_Kelas'];
-            $jumlahNormalisasi['jumlah_normalisasi_Disiplin'] += $data['nilai_normalisasi_Disiplin'];
-            $jumlahNormalisasi['jumlah_normalisasi_Kemampuan_Bahasa_Asing'] += $data['nilai_normalisasi_Kemampuan_Bahasa_Asing'];
-            $jumlahNormalisasi['jumlah_normalisasi_Hafalan_Rumus_Periodik'] += $data['nilai_normalisasi_Hafalan_Rumus_Periodik'];
-            $jumlahNormalisasi['jumlah_normalisasi_Teliti_Unsur_Kimia'] += $data['nilai_normalisasi_Teliti_Unsur_Kimia'];
-            $jumlahNormalisasi['jumlah_normalisasi_Riwayat_Sanksi'] += $data['nilai_normalisasi_Riwayat_Sanksi'];
-            $jumlahNormalisasi['jumlah_normalisasi_Umur'] += $data['nilai_normalisasi_Umur'];
-            $jumlahNormalisasi['jumlah_normalisasi_Sering_Terlambat'] += $data['nilai_normalisasi_Sering_Terlambat'];
-            $jumlahNormalisasi['jumlah_normalisasi_Jumlah_Alpha'] += $data['nilai_normalisasi_Jumlah_Alpha'];
-            $jumlahNormalisasi['jumlah_normalisasi_Presentasi_Kekalahan'] += $data['nilai_normalisasi_Presentasi_Kekalahan'];
+            $jumlahNormalisasi['jumlah_normalisasi_aksesbilitas'] += $data['nilai_normalisasi_aksesbilitas'];
+            $jumlahNormalisasi['jumlah_normalisasi_keamanan'] += $data['nilai_normalisasi_keamanan'];
+            $jumlahNormalisasi['jumlah_normalisasi_kenyamanan'] += $data['nilai_normalisasi_kenyamanan'];
+            $jumlahNormalisasi['jumlah_normalisasi_luas_bangunan'] += $data['nilai_normalisasi_luas_bangunan'];
+            $jumlahNormalisasi['jumlah_normalisasi_luas_parkir'] += $data['nilai_normalisasi_luas_parkir'];
+            $jumlahNormalisasi['jumlah_normalisasi_keramaian'] += $data['nilai_normalisasi_keramaian'];
+            $jumlahNormalisasi['jumlah_normalisasi_kebersihan'] += $data['nilai_normalisasi_kebersihan'];
+            $jumlahNormalisasi['jumlah_normalisasi_fasilitas'] += $data['nilai_normalisasi_fasilitas'];
+            $jumlahNormalisasi['jumlah_normalisasi_jarak_dengan_pusat_kota'] += $data['nilai_normalisasi_jarak_dengan_pusat_kota'];
+            $jumlahNormalisasi['jumlah_normalisasi_harga'] += $data['nilai_normalisasi_harga'];
         }
-
+        // dd($jumlahNormalisasi);
        // Simpan nilai jumlah entropy normalisasi ke dalam tabel "jumlah_normalisasi_entropies"
         try {
             DB::table('jumlah_normalisasi_entropies')->insert([$jumlahNormalisasi]);
@@ -218,56 +219,57 @@ class ApiMetodeEntropyController extends Controller
         $nilaiEntropi = [];
 
         $nilaiTotal = [
-            'nilaiTotal_Ranking_Kelas' => 0,
-            'nilaiTotal_Disiplin' => 0,
-            'nilaiTotal_Kemampuan_Bahasa_Asing' => 0,
-            'nilaiTotal_Hafalan_Rumus_Periodik' => 0,
-            'nilaiTotal_Teliti_Unsur_Kimia' => 0,
-            'nilaiTotal_Riwayat_Sanksi' => 0,
-            'nilaiTotal_Umur' => 0,
-            'nilaiTotal_Sering_Terlambat' => 0,
-            'nilaiTotal_Jumlah_Alpha' => 0,
-            'nilaiTotal_Presentasi_Kekalahan' => 0,
+            'nilaiTotal_aksesbilitas' => 0,
+            'nilaiTotal_keamanan' => 0,
+            'nilaiTotal_kenyamanan' => 0,
+            'nilaiTotal_luas_bangunan' => 0,
+            'nilaiTotal_luas_parkir' => 0,
+            'nilaiTotal_keramaian' => 0,
+            'nilaiTotal_kebersihan' => 0,
+            'nilaiTotal_fasilitas' => 0,
+            'nilaiTotal_jarak_dengan_pusat_kota' => 0,
+            'nilaiTotal_harga' => 0,
         ];
 
         foreach ($nilaiEntropyNormalisasi as $data) {
-            $nilai_e_kriteria_Ranking_Kelas = ($data->nilai_normalisasi_Ranking_Kelas / $jumlahNormalisasi['jumlah_normalisasi_Ranking_Kelas']) * log($data->nilai_normalisasi_Ranking_Kelas / $jumlahNormalisasi['jumlah_normalisasi_Ranking_Kelas']);
-            $nilai_e_kriteria_Disiplin = ($data->nilai_normalisasi_Disiplin / $jumlahNormalisasi['jumlah_normalisasi_Disiplin']) * log($data->nilai_normalisasi_Disiplin / $jumlahNormalisasi['jumlah_normalisasi_Disiplin']);
-            $nilai_e_kriteria_Kemampuan_Bahasa_Asing = ($data->nilai_normalisasi_Kemampuan_Bahasa_Asing / $jumlahNormalisasi['jumlah_normalisasi_Kemampuan_Bahasa_Asing']) * log($data->nilai_normalisasi_Kemampuan_Bahasa_Asing / $jumlahNormalisasi['jumlah_normalisasi_Kemampuan_Bahasa_Asing']);
-            $nilai_e_kriteria_Hafalan_Rumus_Periodik = ($data->nilai_normalisasi_Hafalan_Rumus_Periodik / $jumlahNormalisasi['jumlah_normalisasi_Hafalan_Rumus_Periodik']) * log($data->nilai_normalisasi_Hafalan_Rumus_Periodik / $jumlahNormalisasi['jumlah_normalisasi_Hafalan_Rumus_Periodik']);
-            $nilai_e_kriteria_Teliti_Unsur_Kimia = ($data->nilai_normalisasi_Teliti_Unsur_Kimia / $jumlahNormalisasi['jumlah_normalisasi_Teliti_Unsur_Kimia']) * log($data->nilai_normalisasi_Teliti_Unsur_Kimia / $jumlahNormalisasi['jumlah_normalisasi_Teliti_Unsur_Kimia']);
-            $nilai_e_kriteria_Riwayat_Sanksi = ($data->nilai_normalisasi_Riwayat_Sanksi / $jumlahNormalisasi['jumlah_normalisasi_Riwayat_Sanksi']) * log($data->nilai_normalisasi_Riwayat_Sanksi / $jumlahNormalisasi['jumlah_normalisasi_Riwayat_Sanksi']);
-            $nilai_e_kriteria_Umur = ($data->nilai_normalisasi_Umur / $jumlahNormalisasi['jumlah_normalisasi_Umur']) * log($data->nilai_normalisasi_Umur / $jumlahNormalisasi['jumlah_normalisasi_Umur']);
-            $nilai_e_kriteria_Sering_Terlambat = ($data->nilai_normalisasi_Sering_Terlambat / $jumlahNormalisasi['jumlah_normalisasi_Sering_Terlambat']) * log($data->nilai_normalisasi_Sering_Terlambat / $jumlahNormalisasi['jumlah_normalisasi_Sering_Terlambat']);
-            $nilai_e_kriteria_Jumlah_Alpha = ($data->nilai_normalisasi_Jumlah_Alpha / $jumlahNormalisasi['jumlah_normalisasi_Jumlah_Alpha']) * log($data->nilai_normalisasi_Jumlah_Alpha / $jumlahNormalisasi['jumlah_normalisasi_Jumlah_Alpha']);
-            $nilai_e_kriteria_Presentasi_Kekalahan = ($data->nilai_normalisasi_Presentasi_Kekalahan / $jumlahNormalisasi['jumlah_normalisasi_Presentasi_Kekalahan']) * log($data->nilai_normalisasi_Presentasi_Kekalahan / $jumlahNormalisasi['jumlah_normalisasi_Presentasi_Kekalahan']);
+            $nilai_e_kriteria_aksesbilitas = ($data->nilai_normalisasi_aksesbilitas / $jumlahNormalisasi['jumlah_normalisasi_aksesbilitas']) * log($data->nilai_normalisasi_aksesbilitas / $jumlahNormalisasi['jumlah_normalisasi_aksesbilitas']);
+            $nilai_e_kriteria_keamanan = ($data->nilai_normalisasi_keamanan / $jumlahNormalisasi['jumlah_normalisasi_keamanan']) * log($data->nilai_normalisasi_keamanan / $jumlahNormalisasi['jumlah_normalisasi_keamanan']);
+            $nilai_e_kriteria_kenyamanan = ($data->nilai_normalisasi_kenyamanan / $jumlahNormalisasi['jumlah_normalisasi_kenyamanan']) * log($data->nilai_normalisasi_kenyamanan / $jumlahNormalisasi['jumlah_normalisasi_kenyamanan']);
+            $nilai_e_kriteria_luas_bangunan = ($data->nilai_normalisasi_luas_bangunan / $jumlahNormalisasi['jumlah_normalisasi_luas_bangunan']) * log($data->nilai_normalisasi_luas_bangunan / $jumlahNormalisasi['jumlah_normalisasi_luas_bangunan']);
+            $nilai_e_kriteria_luas_parkir = ($data->nilai_normalisasi_luas_parkir / $jumlahNormalisasi['jumlah_normalisasi_luas_parkir']) * log($data->nilai_normalisasi_luas_parkir / $jumlahNormalisasi['jumlah_normalisasi_luas_parkir']);
+            $nilai_e_kriteria_keramaian = ($data->nilai_normalisasi_keramaian / $jumlahNormalisasi['jumlah_normalisasi_keramaian']) * log($data->nilai_normalisasi_keramaian / $jumlahNormalisasi['jumlah_normalisasi_keramaian']);
+            $nilai_e_kriteria_kebersihan = ($data->nilai_normalisasi_kebersihan / $jumlahNormalisasi['jumlah_normalisasi_kebersihan']) * log($data->nilai_normalisasi_kebersihan / $jumlahNormalisasi['jumlah_normalisasi_kebersihan']);
+            $nilai_e_kriteria_fasilitas = ($data->nilai_normalisasi_fasilitas / $jumlahNormalisasi['jumlah_normalisasi_fasilitas']) * log($data->nilai_normalisasi_fasilitas / $jumlahNormalisasi['jumlah_normalisasi_fasilitas']);
+            $nilai_e_kriteria_jarak_dengan_pusat_kota = ($data->nilai_normalisasi_jarak_dengan_pusat_kota / $jumlahNormalisasi['jumlah_normalisasi_jarak_dengan_pusat_kota']) * log($data->nilai_normalisasi_jarak_dengan_pusat_kota / $jumlahNormalisasi['jumlah_normalisasi_jarak_dengan_pusat_kota']);
+            $nilai_e_kriteria_harga = ($data->nilai_normalisasi_harga / $jumlahNormalisasi['jumlah_normalisasi_harga']) * log($data->nilai_normalisasi_harga / $jumlahNormalisasi['jumlah_normalisasi_harga']);
 
-            $nilaiTotal['nilaiTotal_Ranking_Kelas'] += $nilai_e_kriteria_Ranking_Kelas;
-            $nilaiTotal['nilaiTotal_Disiplin'] += $nilai_e_kriteria_Disiplin;
-            $nilaiTotal['nilaiTotal_Kemampuan_Bahasa_Asing'] += $nilai_e_kriteria_Kemampuan_Bahasa_Asing;
-            $nilaiTotal['nilaiTotal_Hafalan_Rumus_Periodik'] += $nilai_e_kriteria_Hafalan_Rumus_Periodik;
-            $nilaiTotal['nilaiTotal_Teliti_Unsur_Kimia'] += $nilai_e_kriteria_Teliti_Unsur_Kimia;
-            $nilaiTotal['nilaiTotal_Riwayat_Sanksi'] += $nilai_e_kriteria_Riwayat_Sanksi;
-            $nilaiTotal['nilaiTotal_Umur'] += $nilai_e_kriteria_Umur;
-            $nilaiTotal['nilaiTotal_Sering_Terlambat'] += $nilai_e_kriteria_Sering_Terlambat;
-            $nilaiTotal['nilaiTotal_Jumlah_Alpha'] += $nilai_e_kriteria_Jumlah_Alpha;
-            $nilaiTotal['nilaiTotal_Presentasi_Kekalahan'] += $nilai_e_kriteria_Presentasi_Kekalahan;
+            $nilaiTotal['nilaiTotal_aksesbilitas'] += $nilai_e_kriteria_aksesbilitas;
+            $nilaiTotal['nilaiTotal_keamanan'] += $nilai_e_kriteria_keamanan;
+            $nilaiTotal['nilaiTotal_kenyamanan'] += $nilai_e_kriteria_kenyamanan;
+            $nilaiTotal['nilaiTotal_luas_bangunan'] += $nilai_e_kriteria_luas_bangunan;
+            $nilaiTotal['nilaiTotal_luas_parkir'] += $nilai_e_kriteria_luas_parkir;
+            $nilaiTotal['nilaiTotal_keramaian'] += $nilai_e_kriteria_keramaian;
+            $nilaiTotal['nilaiTotal_kebersihan'] += $nilai_e_kriteria_kebersihan;
+            $nilaiTotal['nilaiTotal_fasilitas'] += $nilai_e_kriteria_fasilitas;
+            $nilaiTotal['nilaiTotal_jarak_dengan_pusat_kota'] += $nilai_e_kriteria_jarak_dengan_pusat_kota;
+            $nilaiTotal['nilaiTotal_harga'] += $nilai_e_kriteria_harga;
 
         }
         // Tambahkan total nilai dan dikali dengan hasilNilaiK ke dalam array $nilaiEntropi
         $nilaiEntropi[] = [
             'id_perhitungan' => $request->perhitungan_id,
-            'nilai_e_kriteria_Ranking_Kelas' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Ranking_Kelas'],
-            'nilai_e_kriteria_Disiplin' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Disiplin'],
-            'nilai_e_kriteria_Kemampuan_Bahasa_Asing' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Kemampuan_Bahasa_Asing'],
-            'nilai_e_kriteria_Hafalan_Rumus_Periodik' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Hafalan_Rumus_Periodik'],
-            'nilai_e_kriteria_Teliti_Unsur_Kimia' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Teliti_Unsur_Kimia'],
-            'nilai_e_kriteria_Riwayat_Sanksi' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Riwayat_Sanksi'],
-            'nilai_e_kriteria_Umur' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Umur'],
-            'nilai_e_kriteria_Sering_Terlambat' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Sering_Terlambat'],
-            'nilai_e_kriteria_Jumlah_Alpha' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Jumlah_Alpha'],
-            'nilai_e_kriteria_Presentasi_Kekalahan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_Presentasi_Kekalahan'],
+            'nilai_e_kriteria_aksesbilitas' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_aksesbilitas'],
+            'nilai_e_kriteria_keamanan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_keamanan'],
+            'nilai_e_kriteria_kenyamanan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_kenyamanan'],
+            'nilai_e_kriteria_luas_bangunan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_luas_bangunan'],
+            'nilai_e_kriteria_luas_parkir' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_luas_parkir'],
+            'nilai_e_kriteria_keramaian' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_keramaian'],
+            'nilai_e_kriteria_kebersihan' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_kebersihan'],
+            'nilai_e_kriteria_fasilitas' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_fasilitas'],
+            'nilai_e_kriteria_jarak_dengan_pusat_kota' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_jarak_dengan_pusat_kota'],
+            'nilai_e_kriteria_harga' => -$hasilNilaiK * $nilaiTotal['nilaiTotal_harga'],
         ];
+        // dd($nilaiEntropi);
 
         try {
             DB::table('tabel_nilai_entropies')->insert($nilaiEntropi);
@@ -279,71 +281,71 @@ class ApiMetodeEntropyController extends Controller
         ->where('id_perhitungan', $request->perhitungan_id)
         ->get();
 
+        // Perhitungan Total Nilai Entropy
         $total = DB::table('tabel_nilai_entropies')
         ->where('id_perhitungan', $request->perhitungan_id)
         ->selectRaw('SUM(
-            nilai_e_kriteria_Ranking_Kelas +
-            nilai_e_kriteria_Disiplin +
-            nilai_e_kriteria_Kemampuan_Bahasa_Asing +
-            nilai_e_kriteria_Hafalan_Rumus_Periodik +
-            nilai_e_kriteria_Teliti_Unsur_Kimia +
-            nilai_e_kriteria_Riwayat_Sanksi +
-            nilai_e_kriteria_Umur +
-            nilai_e_kriteria_Sering_Terlambat +
-            nilai_e_kriteria_Jumlah_Alpha +
-            nilai_e_kriteria_Presentasi_Kekalahan
+            nilai_e_kriteria_aksesbilitas +
+            nilai_e_kriteria_keamanan +
+            nilai_e_kriteria_kenyamanan +
+            nilai_e_kriteria_luas_bangunan +
+            nilai_e_kriteria_luas_parkir +
+            nilai_e_kriteria_keramaian +
+            nilai_e_kriteria_kebersihan +
+            nilai_e_kriteria_fasilitas +
+            nilai_e_kriteria_jarak_dengan_pusat_kota +
+            nilai_e_kriteria_harga
         ) as total')
         ->value('total');
+        // dd($total);
 
         TabelTotalNilaiEntropy::updateOrCreate(
             ['hitung_id' => $request->perhitungan_id],
             ['total_nilai_e_entropy' => $total]
         );
 
+        // Perhitungan Bobot Nilai Entropy Per Kriteria
         $TabelTotalNilaiEntropy = DB::table('tabel_total_nilai_entropies')
             ->select('total_nilai_e_entropy')
             ->where('hitung_id', $request->perhitungan_id)
             ->get();
 
-
-
-
         $totalNilaiEntropy = $TabelTotalNilaiEntropy->first()->total_nilai_e_entropy;
-        $nilai_e_kriteria_Ranking_Kelas_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Ranking_Kelas;
-        $nilai_e_kriteria_Disiplin_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Disiplin;
-        $nilai_e_kriteria_Kemampuan_Bahasa_Asing_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Kemampuan_Bahasa_Asing;
-        $nilai_e_kriteria_Hafalan_Rumus_Periodik_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Hafalan_Rumus_Periodik;
-        $nilai_e_kriteria_Teliti_Unsur_Kimia_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Teliti_Unsur_Kimia;
-        $nilai_e_kriteria_Riwayat_Sanksi_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Riwayat_Sanksi;
-        $nilai_e_kriteria_Umur_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Umur;
-        $nilai_e_kriteria_Sering_Terlambat_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Sering_Terlambat;
-        $nilai_e_kriteria_Jumlah_Alpha_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Jumlah_Alpha;
-        $nilai_e_kriteria_Presentasi_Kekalahan_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Presentasi_Kekalahan;
+
+        $nilai_e_kriteria_aksesbilitas_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_aksesbilitas;
+        $nilai_e_kriteria_keamanan_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_keamanan;
+        $nilai_e_kriteria_kenyamanan_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_kenyamanan;
+        $nilai_e_kriteria_luas_bangunan_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_luas_bangunan;
+        $nilai_e_kriteria_luas_parkir_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_luas_parkir;
+        $nilai_e_kriteria_keramaian_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_keramaian;
+        $nilai_e_kriteria_kebersihan_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_kebersihan;
+        $nilai_e_kriteria_fasilitas_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_fasilitas;
+        $nilai_e_kriteria_jarak_dengan_pusat_kota_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_jarak_dengan_pusat_kota;
+        $nilai_e_kriteria_harga_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_harga;
 
 
-        // Perhitungan Jumlah Total Nilai Entropy
         $tabelBobot = New TabelBobotEntropy([
         'hitung_id' => $perhitunganID,
-        'bobot_entropy_Ranking_Kelas' => ((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Ranking_Kelas_final)),
-        'bobot_entropy_Disiplin'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Disiplin_final)),
-        'bobot_entropy_Kemampuan_Bahasa_Asing'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Kemampuan_Bahasa_Asing_final)),
-        'bobot_entropy_Hafalan_Rumus_Periodik'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Hafalan_Rumus_Periodik_final)),
-        'bobot_entropy_Teliti_Unsur_Kimia'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Teliti_Unsur_Kimia_final)),
-        'bobot_entropy_Riwayat_Sanksi'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Riwayat_Sanksi_final)),
-        'bobot_entropy_Umur'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Umur_final)),
-        'bobot_entropy_Sering_Terlambat'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Sering_Terlambat_final)),
-        'bobot_entropy_Jumlah_Alpha'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Jumlah_Alpha_final)),
-        'bobot_entropy_Presentasi_Kekalahan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Presentasi_Kekalahan_final)),
+        'bobot_entropy_aksesbilitas' => ((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_aksesbilitas_final)),
+        'bobot_entropy_keamanan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_keamanan_final)),
+        'bobot_entropy_kenyamanan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_kenyamanan_final)),
+        'bobot_entropy_luas_bangunan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_luas_bangunan_final)),
+        'bobot_entropy_luas_parkir'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_luas_parkir_final)),
+        'bobot_entropy_keramaian'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_keramaian_final)),
+        'bobot_entropy_kebersihan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_kebersihan_final)),
+        'bobot_entropy_fasilitas'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_fasilitas_final)),
+        'bobot_entropy_jarak_dengan_pusat_kota'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_jarak_dengan_pusat_kota_final)),
+        'bobot_entropy_harga'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_harga_final)),
 
         ]);
-
+        
         $tabelBobot->save();
         $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
             ->where('hitung_id', $request->perhitungan_id)
             ->get();
 
-        // Perhitungan Bobot Nilai Entropy Per Kriteria
-        
+
+        // Response JSON API
         $response = [
             'perhitungans' => $perhitungans,
             'perhitunganKriteriaPerAlternatif' => $perhitunganKriteriaPerAlternatif,
