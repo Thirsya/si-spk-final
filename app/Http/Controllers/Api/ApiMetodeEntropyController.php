@@ -365,18 +365,50 @@ class ApiMetodeEntropyController extends Controller
     {
         $request->validate([
             'judul_perhitungan' => 'required',
+            'alternatif' => 'required|array',
+            'alternatif.*.nama_restoran' => 'required',
+            'alternatif.*.aksesbilitas' => 'required',
+            'alternatif.*.keamanan' => 'required',
+            'alternatif.*.kenyamanan' => 'required',
+            'alternatif.*.luas_bangunan' => 'required',
+            'alternatif.*.luas_parkir' => 'required',
+            'alternatif.*.keramaian' => 'required',
+            'alternatif.*.kebersihan' => 'required',
+            'alternatif.*.fasilitas' => 'required',
+            'alternatif.*.jarak_dengan_pusat_kota' => 'required',
+            'alternatif.*.harga' => 'required',
         ]);
 
         $perhitungan = new Perhitungan();
-
         $perhitungan->judul_perhitungan = $request->judul_perhitungan;
         $perhitungan->waktu_perhitungan = now();
-
         $perhitungan->save();
 
+        $perhitunganKriteriaPerAlternatifData = [];
+
+        foreach ($request->alternatif as $alternatif) {
+            $perhitunganKriteriaPerAlternatif = new PerhitunganKriteriaPerAlternatif();
+            $perhitunganKriteriaPerAlternatif->id_perhitungan = $perhitungan->id;
+            $perhitunganKriteriaPerAlternatif->nama_restoran = $alternatif['nama_restoran'];
+            $perhitunganKriteriaPerAlternatif->aksesbilitas = $alternatif['aksesbilitas'];
+            $perhitunganKriteriaPerAlternatif->keamanan = $alternatif['keamanan'];
+            $perhitunganKriteriaPerAlternatif->kenyamanan = $alternatif['kenyamanan'];
+            $perhitunganKriteriaPerAlternatif->luas_bangunan = $alternatif['luas_bangunan'];
+            $perhitunganKriteriaPerAlternatif->luas_parkir = $alternatif['luas_parkir'];
+            $perhitunganKriteriaPerAlternatif->keramaian = $alternatif['keramaian'];
+            $perhitunganKriteriaPerAlternatif->kebersihan = $alternatif['kebersihan'];
+            $perhitunganKriteriaPerAlternatif->fasilitas = $alternatif['fasilitas'];
+            $perhitunganKriteriaPerAlternatif->jarak_dengan_pusat_kota = $alternatif['jarak_dengan_pusat_kota'];
+            $perhitunganKriteriaPerAlternatif->harga = $alternatif['harga'];
+            $perhitunganKriteriaPerAlternatif->save();
+
+            $perhitunganKriteriaPerAlternatifData[] = $perhitunganKriteriaPerAlternatif;
+        }
+
         return response()->json([
-            'message' => 'Input Judul  berhasil disimpan',
+            'message' => 'Data berhasil disimpan',
             'perhitungan' => $perhitungan,
+            'perhitungan_kriteria_per_alternatif' => $perhitunganKriteriaPerAlternatifData,
         ], 201);
     }
 }

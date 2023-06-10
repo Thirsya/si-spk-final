@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            PerhitunganSeeder::class,
-            PerhitunganKriteriaPerAlternatifSeeder::class,
+            // PerhitunganSeeder::class,
+            // PerhitunganKriteriaPerAlternatifSeeder::class,
             // JumlahNormalisasiEntropySeeder::class,
             // TabelBobotEntropySeeder::class,
             // // TabelNilaiEntropySeeder::class,
