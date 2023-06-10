@@ -10,11 +10,8 @@ class NilaiMinTiapAlternatifCost extends Model
 
     protected $fillable = [
         'id_perhitungan',
-        'min_Riwayat_Sanksi',
-        'min_Umur',
-        'min_Sering_Terlambat',
-        'min_Jumlah_Alpha',
-        'min_Presentasi_Kekalahan',
+        'min_jarak_dengan_pusat_kota',
+        'min_harga',
     ];
 
     public function perhitungan()

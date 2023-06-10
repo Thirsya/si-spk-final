@@ -16,11 +16,8 @@ return new class extends Migration
         Schema::create('nilai_min_tiap_alternatif_cost', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('id_perhitungan');
-        $table->double('min_Riwayat_Sanksi');
-        $table->double('min_Umur');
-        $table->double('min_Sering_Terlambat');
-        $table->double('min_Jumlah_Alpha');
-        $table->double('min_Presentasi_Kekalahan');
+        $table->double('min_jarak_dengan_pusat_kota');
+        $table->double('min_harga');
 
         $table->foreign('id_perhitungan')->references('id')->on('perhitungan');
         $table->timestamps();

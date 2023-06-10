@@ -16,17 +16,17 @@ return new class extends Migration
         Schema::create('perhitungan_kriteria_per_alternatif', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perhitungan');
-            $table->string('nama_siswa');
-            $table->double('Ranking_Kelas');
-            $table->double('Disiplin');
-            $table->double('Kemampuan_Bahasa_Asing');
-            $table->double('Hafalan_Rumus_Periodik');
-            $table->double('Teliti_Unsur_Kimia');
-            $table->double('Riwayat_Sanksi');
-            $table->double('Umur');
-            $table->double('Sering_Terlambat');
-            $table->double('Jumlah_Alpha');
-            $table->double('Presentasi_Kekalahan');
+            $table->string('nama_restoran');
+            $table->double('aksesbilitas');
+            $table->double('keamanan');
+            $table->double('kenyamanan');
+            $table->double('luas_bangunan');
+            $table->double('luas_parkir');
+            $table->double('keramaian');
+            $table->double('kebersihan');
+            $table->double('fasilitas');
+            $table->double('jarak_dengan_pusat_kota');
+            $table->double('harga');
 
 
             $table->foreign('id_perhitungan')->references('id')->on('perhitungan');

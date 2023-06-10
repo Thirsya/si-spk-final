@@ -18,17 +18,17 @@ class PerhitunganKriteriaPerAlternatifSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             PerhitunganKriteriaPerAlternatif::create([
                 'id_perhitungan' => 1,
-                'nama_siswa' => 'Dummy ' . ($i + 1),
-                'Ranking_Kelas' => rand(70, 100) / 10,
-                'Disiplin' => rand(70, 100) / 10,
-                'Kemampuan_Bahasa_Asing' => rand(70, 100) / 10,
-                'Hafalan_Rumus_Periodik' => rand(70, 100) / 10,
-                'Teliti_Unsur_Kimia' => rand(70, 100) / 10,
-                'Riwayat_Sanksi' => rand(70, 100) / 10,
-                'Umur' => rand(70, 100) / 10,
-                'Sering_Terlambat' => rand(70, 100) / 10,
-                'Jumlah_Alpha' => rand(70, 100) / 10,
-                'Presentasi_Kekalahan' => rand(70, 100) / 10,
+                'nama_restoran' => 'Dummy ' . ($i + 1),
+                'aksesbilitas' => rand(70, 100) / 10,
+                'keamanan' => rand(70, 100) / 10,
+                'kenyamanan' => rand(70, 100) / 10,
+                'luas_bangunan' => rand(70, 100) / 10,
+                'luas_parkir' => rand(70, 100) / 10,
+                'keramaian' => rand(70, 100) / 10,
+                'kebersihan' => rand(70, 100) / 10,
+                'fasilitas' => rand(70, 100) / 10,
+                'jarak_dengan_pusat_kota' => rand(70, 100) / 10,
+                'harga' => rand(70, 100) / 10,
             ]);
         }
 

@@ -16,16 +16,17 @@ return new class extends Migration
         Schema::create('jumlah_normalisasi_entropies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perhitungan')->nullable();
-            $table->double('jumlah_normalisasi_Ranking_Kelas')->nullable();
-            $table->double('jumlah_normalisasi_Disiplin')->nullable();
-            $table->double('jumlah_normalisasi_Kemampuan_Bahasa_Asing')->nullable();
-            $table->double('jumlah_normalisasi_Hafalan_Rumus_Periodik')->nullable();
-            $table->double('jumlah_normalisasi_Teliti_Unsur_Kimia')->nullable();
-            $table->double('jumlah_normalisasi_Riwayat_Sanksi')->nullable();
-            $table->double('jumlah_normalisasi_Umur')->nullable();
-            $table->double('jumlah_normalisasi_Sering_Terlambat')->nullable();
-            $table->double('jumlah_normalisasi_Jumlah_Alpha')->nullable();
-            $table->double('jumlah_normalisasi_Presentasi_Kekalahan')->nullable();
+            $table->double('jumlah_normalisasi_aksesbilitas')->nullable();
+            $table->double('jumlah_normalisasi_keamanan')->nullable();
+            $table->double('jumlah_normalisasi_kenyamanan')->nullable();
+            $table->double('jumlah_normalisasi_luas_bangunan')->nullable();
+            $table->double('jumlah_normalisasi_luas_parkir')->nullable();
+            $table->double('jumlah_normalisasi_keramaian')->nullable();
+            $table->double('jumlah_normalisasi_kebersihan')->nullable();
+            $table->double('jumlah_normalisasi_fasilitas')->nullable();
+            $table->double('jumlah_normalisasi_jarak_dengan_pusat_kota')->nullable();
+            $table->double('jumlah_normalisasi_harga')->nullable();
+
             $table->foreign('id_perhitungan')->references('id')->on('perhitungan')->restrictOnDelete();
             $table->timestamps();
         });

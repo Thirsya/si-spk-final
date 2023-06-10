@@ -295,15 +295,15 @@ class ApiMetodeEntropyController extends Controller
         ) as total')
         ->value('total');
 
-    TabelTotalNilaiEntropy::updateOrCreate(
-        ['hitung_id' => $request->perhitungan_id],
-        ['total_nilai_e_entropy' => $total]
-    );
+        TabelTotalNilaiEntropy::updateOrCreate(
+            ['hitung_id' => $request->perhitungan_id],
+            ['total_nilai_e_entropy' => $total]
+        );
 
-    $TabelTotalNilaiEntropy = DB::table('tabel_total_nilai_entropies')
-        ->select('total_nilai_e_entropy')
-        ->where('hitung_id', $request->perhitungan_id)
-        ->get();
+        $TabelTotalNilaiEntropy = DB::table('tabel_total_nilai_entropies')
+            ->select('total_nilai_e_entropy')
+            ->where('hitung_id', $request->perhitungan_id)
+            ->get();
 
 
 
@@ -320,32 +320,30 @@ class ApiMetodeEntropyController extends Controller
         $nilai_e_kriteria_Jumlah_Alpha_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Jumlah_Alpha;
         $nilai_e_kriteria_Presentasi_Kekalahan_final = $perhitunganNilaiEntropy->first()->nilai_e_kriteria_Presentasi_Kekalahan;
 
-// dd(1/(10 - $totalNilaiEntropy));
-// dd((1-$nilai_e_kriteria_Ranking_Kelas));
+
         // Perhitungan Jumlah Total Nilai Entropy
-    $tabelBobot = New TabelBobotEntropy([
-    'hitung_id' => $perhitunganID,
-    'bobot_entropy_Ranking_Kelas' => ((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Ranking_Kelas_final)),
-    'bobot_entropy_Disiplin'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Disiplin_final)),
-    'bobot_entropy_Kemampuan_Bahasa_Asing'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Kemampuan_Bahasa_Asing_final)),
-    'bobot_entropy_Hafalan_Rumus_Periodik'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Hafalan_Rumus_Periodik_final)),
-    'bobot_entropy_Teliti_Unsur_Kimia'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Teliti_Unsur_Kimia_final)),
-    'bobot_entropy_Riwayat_Sanksi'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Riwayat_Sanksi_final)),
-    'bobot_entropy_Umur'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Umur_final)),
-    'bobot_entropy_Sering_Terlambat'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Sering_Terlambat_final)),
-    'bobot_entropy_Jumlah_Alpha'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Jumlah_Alpha_final)),
-    'bobot_entropy_Presentasi_Kekalahan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Presentasi_Kekalahan_final)),
+        $tabelBobot = New TabelBobotEntropy([
+        'hitung_id' => $perhitunganID,
+        'bobot_entropy_Ranking_Kelas' => ((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Ranking_Kelas_final)),
+        'bobot_entropy_Disiplin'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Disiplin_final)),
+        'bobot_entropy_Kemampuan_Bahasa_Asing'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Kemampuan_Bahasa_Asing_final)),
+        'bobot_entropy_Hafalan_Rumus_Periodik'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Hafalan_Rumus_Periodik_final)),
+        'bobot_entropy_Teliti_Unsur_Kimia'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Teliti_Unsur_Kimia_final)),
+        'bobot_entropy_Riwayat_Sanksi'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Riwayat_Sanksi_final)),
+        'bobot_entropy_Umur'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Umur_final)),
+        'bobot_entropy_Sering_Terlambat'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Sering_Terlambat_final)),
+        'bobot_entropy_Jumlah_Alpha'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Jumlah_Alpha_final)),
+        'bobot_entropy_Presentasi_Kekalahan'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_Presentasi_Kekalahan_final)),
 
-    ]);
+        ]);
 
-    $tabelBobot->save();
-    $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
-        ->where('hitung_id', $request->perhitungan_id)
-        ->get();
+        $tabelBobot->save();
+        $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
+            ->where('hitung_id', $request->perhitungan_id)
+            ->get();
 
         // Perhitungan Bobot Nilai Entropy Per Kriteria
-
-
+        
         $response = [
             'perhitungans' => $perhitungans,
             'perhitunganKriteriaPerAlternatif' => $perhitunganKriteriaPerAlternatif,

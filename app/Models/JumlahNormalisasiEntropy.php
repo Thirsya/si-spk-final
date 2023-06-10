@@ -10,16 +10,16 @@ class JumlahNormalisasiEntropy extends Model
 
     protected $fillable = [
         'id_perhitungan',
-        'jumlah_normalisasi_Ranking_Kelas',
-        'jumlah_normalisasi_Disiplin',
-        'jumlah_normalisasi_Kemampuan_Bahasa_Asing',
-        'jumlah_normalisasi_Hafalan_Rumus_Periodik',
-        'jumlah_normalisasi_Teliti_Unsur_Kimia',
-        'jumlah_normalisasi_Riwayat_Sanksi',
-        'jumlah_normalisasi_Umur',
-        'jumlah_normalisasi_Sering_Terlambat',
-        'jumlah_normalisasi_Jumlah_Alpha',
-        'jumlah_normalisasi_Presentasi_Kekalahan',
+        'jumlah_normalisasi_aksesbilitas',
+        'jumlah_normalisasi_keamanan',
+        'jumlah_normalisasi_kenyamanan',
+        'jumlah_normalisasi_luas_bangunan',
+        'jumlah_normalisasi_luas_parkir',
+        'jumlah_normalisasi_keramaian',
+        'jumlah_normalisasi_kebersihan',
+        'jumlah_normalisasi_fasilitas',
+        'jumlah_normalisasi_jarak_dengan_pusat_kota',
+        'jumlah_normalisasi_harga',
     ];
 
     public function perhitungan()

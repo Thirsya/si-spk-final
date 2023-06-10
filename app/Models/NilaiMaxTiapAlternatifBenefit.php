@@ -10,11 +10,14 @@ class NilaiMaxTiapAlternatifBenefit extends Model
 
     protected $fillable = [
         'id_perhitungan',
-        'max_Ranking_Kelas',
-        'max_Disiplin',
-        'max_Kemampuan_Bahasa_Asing',
-        'max_Hafalan_Rumus_Periodik',
-        'max_Teliti_Unsur_Kimia',
+        'max_aksesbilitas',
+        'max_keamanan',
+        'max_kenyamanan',
+        'max_luas_bangunan',
+        'max_luas_parkir',
+        'max_keramaian',
+        'max_kebersihan',
+        'max_fasilitas',
     ];
 
     public function perhitungan()
