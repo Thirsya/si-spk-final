@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('normalisasi_moora', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perhitungan');
-            $table->double('nilai_kriteria_1');
-            $table->double('nilai_kriteria_2');
-            $table->double('nilai_kriteria_3');
-            $table->double('nilai_kriteria_4');
-            $table->double('nilai_kriteria_5');
-            $table->double('nilai_kriteria_6');
-            $table->double('nilai_kriteria_7');
-            $table->double('nilai_kriteria_8');
-            $table->double('nilai_kriteria_9');
-            $table->double('nilai_kriteria_10');
+            $table->double('nilai_normalisasi_moora_aksesbilitas');
+            $table->double('nilai_normalisasi_moora_keamanan');
+            $table->double('nilai_normalisasi_moora_kenyamanan');
+            $table->double('nilai_normalisasi_moora_luas_bangunan');
+            $table->double('nilai_normalisasi_moora_luas_parkir');
+            $table->double('nilai_normalisasi_moora_keramaian');
+            $table->double('nilai_normalisasi_moora_kebersihan');
+            $table->double('nilai_normalisasi_moora_fasilitas');
+            $table->double('nilai_normalisasi_moora_jarak_dengan_pusat_kota');
+            $table->double('nilai_normalisasi_moora_harga');
 
             $table->foreign('id_perhitungan')->references('id')->on('perhitungan');
             $table->timestamps();

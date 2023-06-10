@@ -192,7 +192,7 @@ class ApiMetodeEntropyController extends Controller
             $jumlahNormalisasi['jumlah_normalisasi_jarak_dengan_pusat_kota'] += $data['nilai_normalisasi_jarak_dengan_pusat_kota'];
             $jumlahNormalisasi['jumlah_normalisasi_harga'] += $data['nilai_normalisasi_harga'];
         }
-        // dd($jumlahNormalisasi);
+        //dd($jumlahNormalisasi);
        // Simpan nilai jumlah entropy normalisasi ke dalam tabel "jumlah_normalisasi_entropies"
         try {
             DB::table('jumlah_normalisasi_entropies')->insert([$jumlahNormalisasi]);
@@ -338,13 +338,58 @@ class ApiMetodeEntropyController extends Controller
         'bobot_entropy_harga'=>((1/(10 - $totalNilaiEntropy))*(1-$nilai_e_kriteria_harga_final)),
 
         ]);
-        
+
         $tabelBobot->save();
         $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
             ->where('hitung_id', $request->perhitungan_id)
             ->get();
 
+        // Perhitungan Normalisasi Moora
+        $moora = [];
 
+        $nilaiPow = [
+            'nilaiTotal_aksesbilitas' => 0,
+            'nilaiTotal_keamanan' => 0,
+            'nilaiTotal_kenyamanan' => 0,
+            'nilaiTotal_luas_bangunan' => 0,
+            'nilaiTotal_luas_parkir' => 0,
+            'nilaiTotal_keramaian' => 0,
+            'nilaiTotal_kebersihan' => 0,
+            'nilaiTotal_fasilitas' => 0,
+            'nilaiTotal_jarak_dengan_pusat_kota' => 0,
+            'nilaiTotal_harga' => 0,
+        ];
+
+        foreach ($perhitunganKriteriaPerAlternatif as $data) {
+            $nilaiPow['nilaiTotal_aksesbilitas'] += pow($data->aksesbilitas, 2);
+            $nilaiPow['nilaiTotal_keamanan'] += pow($data->keamanan, 2);
+            $nilaiPow['nilaiTotal_kenyamanan'] += pow($data->kenyamanan, 2);
+            $nilaiPow['nilaiTotal_luas_bangunan'] += pow($data->luas_bangunan, 2);
+            $nilaiPow['nilaiTotal_luas_parkir'] += pow($data->luas_parkir, 2);
+            $nilaiPow['nilaiTotal_keramaian'] += pow($data->keramaian, 2);
+            $nilaiPow['nilaiTotal_kebersihan'] += pow($data->kebersihan, 2);
+            $nilaiPow['nilaiTotal_fasilitas'] += pow($data->fasilitas, 2);
+            $nilaiPow['nilaiTotal_jarak_dengan_pusat_kota'] += pow($data->jarak_dengan_pusat_kota, 2);
+            $nilaiPow['nilaiTotal_harga'] += pow($data->harga, 2);
+
+            $moora = [
+                'aksesbilitas' => $data->aksesbilitas / (sqrt($nilaiPow['nilaiTotal_aksesbilitas'])),
+                'keamanan' => $data->keamanan / (sqrt($nilaiPow['nilaiTotal_keamanan'])),
+                'kenyamanan' => $data->kenyamanan / (sqrt($nilaiPow['nilaiTotal_kenyamanan'])),
+                'luas_bangunan' =>$data->luas_bangunan / (sqrt($nilaiPow['nilaiTotal_luas_bangunan'])),
+                'luas_parkir' => $data->luas_parkir / (sqrt($nilaiPow['nilaiTotal_luas_parkir'])),
+                'keramaian' => $data->keramaian / (sqrt($nilaiPow['nilaiTotal_keramaian'])),
+                'kebersihan' => $data->kebersihan / (sqrt($nilaiPow['nilaiTotal_kebersihan'])),
+                'fasilitas' => $data->fasilitas / (sqrt($nilaiPow['nilaiTotal_fasilitas'])),
+                'jarak_dengan_pusat_kota' => $data->jarak_dengan_pusat_kota / (sqrt($nilaiPow['nilaiTotal_jarak_dengan_pusat_kota'])),
+                'harga' => $data->harga / (sqrt($nilaiPow['nilaiTotal_harga'])),
+            ];
+
+        };
+
+
+
+        // Perhitungan Optimasi Moora
         // Response JSON API
         $response = [
             'perhitungans' => $perhitungans,
