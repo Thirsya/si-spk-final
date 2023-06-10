@@ -1,18 +1,18 @@
 {
   "Header": {
-    "title": "BEST CHEMISTRY STUDENT",
-    "paragraph": "Tentukan Siswa Terbaik dari Sekolahmu Menggunakan Sistem Pendukung Keputusan Entropy dan MOORA."
+    "title": "BEST RESTAURANT",
+    "paragraph": "Tentukan Rumah Makan Terbaik dari Daerahmu Menggunakan Sistem Pendukung Keputusan Entropy dan MOORA."
   },
   "About": {
-    "paragraph": "Selamat datang di website Sistem Pendukung Keputusan Siswa Terbaik! Kami menggunakan metode Entropy dan MOORA untuk membantu Anda dalam memilih siswa terbaik di sekolah Anda. Dengan antarmuka intuitif dan dukungan teknis yang handal, kami menjadi mitra terpercaya Anda dalam pengambilan keputusan yang lebih baik.",
+    "paragraph": "Selamat datang di website Sistem Pendukung Keputusan Rumah Makan Terbaik! Kami menggunakan metode Entropy dan MOORA untuk membantu Anda dalam memilih Rumah Makan terbaik di daerah Anda. Dengan antarmuka intuitif dan dukungan teknis yang handal, kami menjadi mitra terpercaya Anda dalam pengambilan keputusan yang lebih baik.",
     "Why": [
-      "Efektif: Metode Entropy dan MOORA terbukti membantu memilih siswa terbaik.",
+      "Efektif: Metode Entropy dan MOORA terbukti membantu memilih Rumah Makan terbaik.",
       "Efisien: Alat kami menghemat waktu dan usaha Anda.",
       "Objektif: Keputusan didasarkan pada data obyektif, bukan preferensi subjektif.",
       "Antarmuka Intuitif: Website kami mudah digunakan."
     ],
     "Why2": [
-      "Analisis Mendalam: Data siswa dipelajari secara komprehensif.",
+      "Analisis Mendalam: Data Rumah Makan dipelajari secara komprehensif.",
       "Optimisasi Berdasarkan Kriteria: Metode MOORA memaksimalkan keputusan."
       
     ]
@@ -58,7 +58,7 @@
     {
       "icon": "fa fa-comments-o",
       "title": "Perhitungan",
-      "text": "dapat menetukan perangkingan Siswa terbaik dengan menginputkan data yang dibutuhkan"
+      "text": "dapat menetukan perangkingan Rumah Makan terbaik dengan menginputkan data yang dibutuhkan"
     },
     {
       "icon": "fa fa-bullhorn",
