@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\PerhitunganKriteriaPerAlternatif;
 use App\Models\NilaiMaxTiapAlternatifBenefit;
 use App\Models\NilaiMinTiapAlternatifCost;
+use App\Models\NormalisaiMoora;
+use App\Models\OptimasiMoora;
 use App\Models\Perhitungan;
 use App\Models\TabelBobotEntropy;
 use App\Models\TabelTotalNilaiEntropy;
@@ -193,7 +195,7 @@ class ApiMetodeEntropyController extends Controller
             $jumlahNormalisasi['jumlah_normalisasi_harga'] += $data['nilai_normalisasi_harga'];
         }
         // dd($jumlahNormalisasi);
-       // Simpan nilai jumlah entropy normalisasi ke dalam tabel "jumlah_normalisasi_entropies"
+        // Simpan nilai jumlah entropy normalisasi ke dalam tabel "jumlah_normalisasi_entropies"
         try {
             DB::table('jumlah_normalisasi_entropies')->insert([$jumlahNormalisasi]);
         } catch (\Exception $e) {
@@ -306,7 +308,7 @@ class ApiMetodeEntropyController extends Controller
         // Perhitungan Bobot Nilai Entropy Per Kriteria
         $TabelTotalNilaiEntropy = DB::table('tabel_total_nilai_entropies')
             ->select('total_nilai_e_entropy')
-            ->where('hitung_id', $id_perhitungan)
+            ->where('hitung_id', $perhitunganID)
             ->get();
 
         $totalNilaiEntropy = $TabelTotalNilaiEntropy->first()->total_nilai_e_entropy;
@@ -340,59 +342,167 @@ class ApiMetodeEntropyController extends Controller
 
         $tabelBobot->save();
         $TabelTotalBobotEntropy = DB::table('tabel_bobot_entropies')
-            ->where('hitung_id', $id_perhitungan)
+            ->where('hitung_id', $perhitunganID)
             ->get();
 
         // Perhitungan Normalisasi Moora
-        // $moora = [];
+        $normalisasiMoora = [];
 
-        // $nilaiPow = [
-        //     'nilaiTotal_aksesbilitas' => 0,
-        //     'nilaiTotal_keamanan' => 0,
-        //     'nilaiTotal_kenyamanan' => 0,
-        //     'nilaiTotal_luas_bangunan' => 0,
-        //     'nilaiTotal_luas_parkir' => 0,
-        //     'nilaiTotal_keramaian' => 0,
-        //     'nilaiTotal_kebersihan' => 0,
-        //     'nilaiTotal_fasilitas' => 0,
-        //     'nilaiTotal_jarak_dengan_pusat_kota' => 0,
-        //     'nilaiTotal_harga' => 0,
-        // ];
+        $nilaiPow = [
+            'nilaiTotal_aksesbilitas' => 0,
+            'nilaiTotal_keamanan' => 0,
+            'nilaiTotal_kenyamanan' => 0,
+            'nilaiTotal_luas_bangunan' => 0,
+            'nilaiTotal_luas_parkir' => 0,
+            'nilaiTotal_keramaian' => 0,
+            'nilaiTotal_kebersihan' => 0,
+            'nilaiTotal_fasilitas' => 0,
+            'nilaiTotal_jarak_dengan_pusat_kota' => 0,
+            'nilaiTotal_harga' => 0,
+        ];
 
-        // foreach ($perhitunganKriteriaPerAlternatif as $data) {
-        //     $nilaiPow['nilaiTotal_aksesbilitas'] += pow($data->aksesbilitas, 2);
-        //     $nilaiPow['nilaiTotal_keamanan'] += pow($data->keamanan, 2);
-        //     $nilaiPow['nilaiTotal_kenyamanan'] += pow($data->kenyamanan, 2);
-        //     $nilaiPow['nilaiTotal_luas_bangunan'] += pow($data->luas_bangunan, 2);
-        //     $nilaiPow['nilaiTotal_luas_parkir'] += pow($data->luas_parkir, 2);
-        //     $nilaiPow['nilaiTotal_keramaian'] += pow($data->keramaian, 2);
-        //     $nilaiPow['nilaiTotal_kebersihan'] += pow($data->kebersihan, 2);
-        //     $nilaiPow['nilaiTotal_fasilitas'] += pow($data->fasilitas, 2);
-        //     $nilaiPow['nilaiTotal_jarak_dengan_pusat_kota'] += pow($data->jarak_dengan_pusat_kota, 2);
-        //     $nilaiPow['nilaiTotal_harga'] += pow($data->harga, 2);
+        foreach ($perhitunganKriteriaPerAlternatif as $data) {
+            $nilaiPow['nilaiTotal_aksesbilitas'] += pow($data->aksesbilitas, 2);
+            $nilaiPow['nilaiTotal_keamanan'] += pow($data->keamanan, 2);
+            $nilaiPow['nilaiTotal_kenyamanan'] += pow($data->kenyamanan, 2);
+            $nilaiPow['nilaiTotal_luas_bangunan'] += pow($data->luas_bangunan, 2);
+            $nilaiPow['nilaiTotal_luas_parkir'] += pow($data->luas_parkir, 2);
+            $nilaiPow['nilaiTotal_keramaian'] += pow($data->keramaian, 2);
+            $nilaiPow['nilaiTotal_kebersihan'] += pow($data->kebersihan, 2);
+            $nilaiPow['nilaiTotal_fasilitas'] += pow($data->fasilitas, 2);
+            $nilaiPow['nilaiTotal_jarak_dengan_pusat_kota'] += pow($data->jarak_dengan_pusat_kota, 2);
+            $nilaiPow['nilaiTotal_harga'] += pow($data->harga, 2);
+        }
 
-        //     $moora = [
-        //         'aksesbilitas' => $data->aksesbilitas / (sqrt($nilaiPow['nilaiTotal_aksesbilitas'])),
-        //         'keamanan' => $data->keamanan / (sqrt($nilaiPow['nilaiTotal_keamanan'])),
-        //         'kenyamanan' => $data->kenyamanan / (sqrt($nilaiPow['nilaiTotal_kenyamanan'])),
-        //         'luas_bangunan' =>$data->luas_bangunan / (sqrt($nilaiPow['nilaiTotal_luas_bangunan'])),
-        //         'luas_parkir' => $data->luas_parkir / (sqrt($nilaiPow['nilaiTotal_luas_parkir'])),
-        //         'keramaian' => $data->keramaian / (sqrt($nilaiPow['nilaiTotal_keramaian'])),
-        //         'kebersihan' => $data->kebersihan / (sqrt($nilaiPow['nilaiTotal_kebersihan'])),
-        //         'fasilitas' => $data->fasilitas / (sqrt($nilaiPow['nilaiTotal_fasilitas'])),
-        //         'jarak_dengan_pusat_kota' => $data->jarak_dengan_pusat_kota / (sqrt($nilaiPow['nilaiTotal_jarak_dengan_pusat_kota'])),
-        //         'harga' => $data->harga / (sqrt($nilaiPow['nilaiTotal_harga'])),
-        //     ];
+        foreach ($perhitunganKriteriaPerAlternatif as $data) {
+            $normalisasiMoora[] = [
+                'id_perhitungan' => $perhitunganID,
+                'nilai_normalisasi_moora_aksesbilitas' => $data->aksesbilitas / sqrt($nilaiPow['nilaiTotal_aksesbilitas']),
+                'nilai_normalisasi_moora_keamanan' => $data->keamanan / sqrt($nilaiPow['nilaiTotal_keamanan']),
+                'nilai_normalisasi_moora_kenyamanan' => $data->kenyamanan / sqrt($nilaiPow['nilaiTotal_kenyamanan']),
+                'nilai_normalisasi_moora_luas_bangunan' => $data->luas_bangunan / sqrt($nilaiPow['nilaiTotal_luas_bangunan']),
+                'nilai_normalisasi_moora_luas_parkir' => $data->luas_parkir / sqrt($nilaiPow['nilaiTotal_luas_parkir']),
+                'nilai_normalisasi_moora_keramaian' => $data->keramaian / sqrt($nilaiPow['nilaiTotal_keramaian']),
+                'nilai_normalisasi_moora_kebersihan' => $data->kebersihan / sqrt($nilaiPow['nilaiTotal_kebersihan']),
+                'nilai_normalisasi_moora_fasilitas' => $data->fasilitas / sqrt($nilaiPow['nilaiTotal_fasilitas']),
+                'nilai_normalisasi_moora_jarak_dengan_pusat_kota' => $data->jarak_dengan_pusat_kota / sqrt($nilaiPow['nilaiTotal_jarak_dengan_pusat_kota']),
+                'nilai_normalisasi_moora_harga' => $data->harga / sqrt($nilaiPow['nilaiTotal_harga']),
+            ];
+        }
+        try {
+            DB::table('normalisasi_moora')->insert($normalisasiMoora);
+        } catch (\Exception $e) {
+            // Handle error jika terjadi kesalahan saat menyimpan data
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data.']);
+        }
 
-        // };
+        $NilaiNormalisasiMoora = DB::table('normalisasi_moora')
+            ->where('id_perhitungan', $perhitunganID)
+            ->get();
+
+
+        foreach ($normalisasiMoora as $index => $data) {
+            $nama_restoran = $perhitunganKriteriaPerAlternatif[$index]->nama_restoran;
+
+            foreach ($TabelTotalBobotEntropy as $item) {
+                $optimasiMoora[] = [
+                    'id_perhitungan' => $perhitunganID,
+                    'nama_restoran' => $nama_restoran,
+                    'nilai_optimasi_moora_aksesbilitas' => $data['nilai_normalisasi_moora_aksesbilitas'] * $item->bobot_entropy_aksesbilitas,
+                    'nilai_optimasi_moora_keamanan' => $data['nilai_normalisasi_moora_keamanan'] * $item->bobot_entropy_keamanan,
+                    'nilai_optimasi_moora_kenyamanan' => $data['nilai_normalisasi_moora_kenyamanan'] * $item->bobot_entropy_kenyamanan,
+                    'nilai_optimasi_moora_luas_bangunan' => $data['nilai_normalisasi_moora_luas_bangunan'] * $item->bobot_entropy_luas_bangunan,
+                    'nilai_optimasi_moora_luas_parkir' => $data['nilai_normalisasi_moora_luas_parkir'] * $item->bobot_entropy_luas_parkir,
+                    'nilai_optimasi_moora_keramaian' => $data['nilai_normalisasi_moora_keramaian'] * $item->bobot_entropy_keramaian,
+                    'nilai_optimasi_moora_kebersihan' => $data['nilai_normalisasi_moora_kebersihan'] * $item->bobot_entropy_kebersihan,
+                    'nilai_optimasi_moora_fasilitas' => $data['nilai_normalisasi_moora_fasilitas'] * $item->bobot_entropy_fasilitas,
+                    'nilai_optimasi_moora_jarak_dengan_pusat_kota' => $data['nilai_normalisasi_moora_jarak_dengan_pusat_kota'] * $item->bobot_entropy_jarak_dengan_pusat_kota,
+                    'nilai_optimasi_moora_harga' => $data['nilai_normalisasi_moora_harga'] * $item->bobot_entropy_harga,
+                ];
+            }
+        }
+        try {
+            DB::table('optimasi_moora')->insert($optimasiMoora);
+        } catch (\Exception $e) {
+            // Handle error jika terjadi kesalahan saat menyimpan data
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data.']);
+        }
+        $NilaiOptimasiMoora = DB::table('optimasi_moora')
+            ->where('id_perhitungan', $perhitunganID)
+            ->get();
+
+            $kolomMax = [
+                'nilai_optimasi_moora_aksesbilitas',
+                'nilai_optimasi_moora_keamanan',
+                'nilai_optimasi_moora_kenyamanan',
+                'nilai_optimasi_moora_luas_bangunan',
+                'nilai_optimasi_moora_luas_parkir',
+                'nilai_optimasi_moora_keramaian',
+                'nilai_optimasi_moora_kebersihan',
+                'nilai_optimasi_moora_fasilitas',
+            ];
+
+            $kolomMin = [
+                'nilai_optimasi_moora_jarak_dengan_pusat_kota',
+                'nilai_optimasi_moora_harga',
+            ];
+
+            $rankingFinals = [];
+            $penguranganMaxminArray = [];
+
+            foreach ($optimasiMoora as $key => $data) {
+                $maxOptimasi = 0;
+
+                foreach ($kolomMax as $kolom) {
+                    $maxOptimasi += $data[$kolom];
+                }
+
+                $minOptimasi = 0;
+
+                foreach ($kolomMin as $kolom) {
+                    $minOptimasi += $data[$kolom];
+                }
+
+                $penguranganMaxmin = $maxOptimasi - $minOptimasi;
+                $penguranganMaxminArray[$key] = $penguranganMaxmin;
+
+                $rankingFinals[] = [
+                    'id_perhitungan' => $perhitunganID,
+                    'nama_restoran' => $data['nama_restoran'],
+                    'max_optimasi' => $maxOptimasi,
+                    'min_optimasi' => $minOptimasi,
+                    'pengurangan_maxmin' => $penguranganMaxmin,
+                ];
+            }
+
+            arsort($penguranganMaxminArray);
+
+            $rangkingMoora = [];
+            $rank = 1;
+            foreach ($penguranganMaxminArray as $key => $value) {
+                $rangkingMoora[$key] = $rank;
+                $rank++;
+            }
+
+            foreach ($rankingFinals as $key => $data) {
+                $rankingFinals[$key]['ranking'] = $rangkingMoora[$key];
+            }
+
+        try {
+            DB::table('ranking_finals')->insert($rankingFinals);
+        } catch (\Exception $e) {
+            // Handle error jika terjadi kesalahan saat menyimpan data
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan data.']);
+        }
+
+        $NilairankingFinals = DB::table('ranking_finals')
+            ->where('id_perhitungan', $perhitunganID)
+            ->get();
 
 
 
-        // Perhitungan Optimasi Moora
-        // Response JSON API
+
         $response = [
-            'perhitungans' => $perhitungans,
-            'perhitunganKriteriaPerAlternatif' => $perhitunganKriteriaPerAlternatif,
             'nilaimaxbenefit' => $nilaimaxbenefit,
             'nilaimincost' => $nilaimincost,
             'nilaiEntropyNormalisasi' => $nilaiEntropyNormalisasi,
@@ -400,6 +510,9 @@ class ApiMetodeEntropyController extends Controller
             'nilaiEntropy' => $perhitunganNilaiEntropy,
             'TabelTotalNilaiEntropy' => $TabelTotalNilaiEntropy,
             'TabelTotalBobotEntropy' => $TabelTotalBobotEntropy,
+            'NilaiNormalisasiMoora' => $NilaiNormalisasiMoora,
+            'NilaiOptimasiMoora' => $NilaiOptimasiMoora,
+            'NilairankingFinals' => $NilairankingFinals,
         ];
 
         return response()->json($response);

@@ -11,17 +11,17 @@ class OptimasiMoora extends Model
 
     protected $fillable = [
         'id_perhitungan',
-        'nama_siswa',
-        'nilai_kriteria_1',
-        'nilai_kriteria_2',
-        'nilai_kriteria_3',
-        'nilai_kriteria_4',
-        'nilai_kriteria_5',
-        'nilai_kriteria_6',
-        'nilai_kriteria_7',
-        'nilai_kriteria_8',
-        'nilai_kriteria_9',
-        'nilai_kriteria_10',
+        'nama_restoran',
+        'nilai_optimasi_moora_aksesbilitas',
+        'nilai_optimasi_moora_keamanan',
+        'nilai_optimasi_moora_kenyamanan',
+        'nilai_optimasi_moora_luas_bangunan',
+        'nilai_optimasi_moora_luas_parkir',
+        'nilai_optimasi_moora_keramaian',
+        'nilai_optimasi_moora_kebersihan',
+        'nilai_optimasi_moora_fasilitas',
+        'nilai_optimasi_moora_jarak_dengan_pusat_kota',
+        'nilai_optimasi_moora_harga',
     ];
 
     public function perhitungan()
