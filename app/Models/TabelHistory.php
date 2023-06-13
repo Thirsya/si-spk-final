@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class TabelHistory extends Model
 {
-    
+    protected $table = 'tabel_histories';
 }
