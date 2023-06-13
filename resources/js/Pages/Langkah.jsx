@@ -1,10 +1,15 @@
 import { Navback } from "../components/navback"
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 
 export const Langkah = () => {
     const navigate = useNavigate()
+    const location = useLocation();
+    const jsonData = location.state.data;
+
+    console.log(jsonData);
 
     return (
         <>

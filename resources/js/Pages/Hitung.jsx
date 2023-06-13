@@ -15,7 +15,7 @@ export const Hitung = () => {
 
     });
 
-    console.log(formData)
+    // console.log(formData)
 
     const handleChange = (event, index) => {
         const { name, value } = event.target;
@@ -44,8 +44,15 @@ export const Hitung = () => {
         })
             .then(response => response.json())
             .then(data => {
+                navigate('/langkah', { state: { data } });
                 // Lakukan sesuatu setelah berhasil mengirim form
-                navigate('/langkah');
+                // navigate('/langkah');
+                // console.log(data);
+                Swal.fire(
+                    'Success!',
+                    'Data Added succesfully!',
+                )
+
             })
             .catch(error => {
                 // Tangani error jika terjadi
@@ -79,7 +86,7 @@ export const Hitung = () => {
                 return obj;
             });
 
-            console.log(result); // JSON hasil konversi
+            // console.log(result); // JSON hasil konversi
             setJsonData(result);
 
             const updatedFormData = { ...formData };
