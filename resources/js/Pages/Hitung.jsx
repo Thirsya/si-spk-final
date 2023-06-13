@@ -8,45 +8,44 @@ export const Hitung = () => {
     const navigate = useNavigate()
     const [jsonData, setJsonData] = useState([]);
 
+
     const [formData, setFormData] = useState({
         judul_perhitungan: 'Judul 1',
-        alternatif: Array.from({ length: jsonData.length }, () => ({
-            nama_restoran: 0,
-            aksesbilitas: 0,
-            keamanan: 0,
-            kenyamanan: 0,
-            luas_bangunan: 0,
-            luas_parkir: 0,
-            keramaian: 0,
-            kebersihan: 0,
-            fasilitas: 0,
-            jarak_dengan_pusat_kota: 0,
-            harga: 0
-        }))
+        alternatif: []
+
     });
+
+    console.log(formData)
 
     const handleChange = (event, index) => {
         const { name, value } = event.target;
         const updatedFormData = { ...formData };
-        updatedFormData.alternatif[index][name] = value;
+
+
+        updatedFormData.alternatif[index] = { ...updatedFormData.alternatif[index], [name]: value };
         setFormData(updatedFormData);
+
+        // updatedFormData.alternatif[index][name] = value;
+        // setRows(updatedRows);
+        console.log(updatedFormData);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const jsonData = JSON.stringify(formData);
+        const submitJsonData = JSON.stringify(formData);
 
-        fetch('url_ke_json', {
+        fetch('http://127.0.0.1:8000/api/inputKriteriaAlternatif', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: jsonData,
+            body: submitJsonData,
         })
             .then(response => response.json())
             .then(data => {
                 // Lakukan sesuatu setelah berhasil mengirim form
+                navigate('/langkah');
             })
             .catch(error => {
                 // Tangani error jika terjadi
@@ -66,8 +65,28 @@ export const Hitung = () => {
 
             const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true, defval: "" });
 
-            console.log(jsonData); // JSON hasil konversi
-            setJsonData(jsonData);
+            // console.log(jsonData); // JSON hasil konversi
+            // setJsonData(jsonData);
+
+            const headers = jsonData[0]; // Header baris pertama
+            const dataRows = jsonData.slice(1); // Baris data (mulai dari baris kedua)
+
+            const result = dataRows.map((row) => {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = row[index];
+                });
+                return obj;
+            });
+
+            console.log(result); // JSON hasil konversi
+            setJsonData(result);
+
+            const updatedFormData = { ...formData };
+
+
+            updatedFormData.alternatif = result;
+            setFormData(updatedFormData);
         };
 
         reader.readAsArrayBuffer(file);
@@ -499,7 +518,7 @@ export const Hitung = () => {
 
                 <div className="border border-2 p-3">
                     <h3 className="mb-5 p-3">Form Input Data</h3>
-                    <form action="" onSubmit={handleSubmit}>
+                    <form action="POST" onSubmit={handleSubmit}>
                         <div className="ps-5" style={{ width: '50%' }}>
                             <div className="mb-5">
                                 <label htmlFor="judul" className="form-label">Judul Perhitungan</label>
@@ -535,89 +554,42 @@ export const Hitung = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {jsonData.slice(1).map((row, index) => (
-                                            <tr key={index}>
+                                        {jsonData.map((data, index) => (
+                                            <tr key={index} >
                                                 <td>{index + 1}</td>
-                                                {row.map((data, dataIndex) => {
-                                                    if (typeof data === 'string') {
-                                                        formData.alternatif.nama_restoran = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="text" name="nama_restoran" required defaultValue={formData.alternatif.nama_restoran} style={{ border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 1) {
-                                                        formData.alternatif.aksesbilitas = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="aksesbilitas" required defaultValue={formData.alternatif.aksesbilitas} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 2) {
-                                                        formData.alternatif.keamanan = data
-                                                        return (
-                                                            <td td key={dataIndex} >
-                                                                <input type="number" name="keamanan" required defaultValue={formData.alternatif.keamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 3) {
-                                                        formData.alternatif.kenyamanan = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="kenyamanan" required defaultValue={formData.alternatif.kenyamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 4) {
-                                                        formData.alternatif.luas_bangunan = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="luas_bangunan" required defaultValue={formData.alternatif.luas_bangunan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 5) {
-                                                        formData.alternatif.luas_parkir = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="luas_parkir" required defaultValue={formData.alternatif.luas_parkir} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 6) {
-                                                        formData.alternatif.keramaian = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="keramaian" required defaultValue={formData.alternatif.keramaian} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 7) {
-                                                        formData.alternatif.kebersihan = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="kebersihan" required defaultValue={formData.alternatif.kebersihan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 8) {
-                                                        formData.alternatif.fasilitas = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="fasilitas" required defaultValue={formData.alternatif.fasilitas} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 9) {
-                                                        formData.alternatif.jarak_dengan_pusat_kota = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="jarak_dengan_pusat_kota" required defaultValue={formData.alternatif.jarak_dengan_pusat_kota} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    } else if (dataIndex == 10) {
-                                                        formData.alternatif.harga = data
-                                                        return (
-                                                            <td key={dataIndex}>
-                                                                <input type="number" name="harga" required defaultValue={formData.alternatif.harga} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                            </td>
-                                                        );
-                                                    }
-                                                })}
+                                                <td>
+                                                    <input type="text" name="nama_restoran" required defaultValue={data.nama_restoran} style={{ border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="aksesbilitas" required defaultValue={data.aksesbilitas} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="keamanan" required defaultValue={data.keamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="kenyamanan" required defaultValue={data.kenyamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="luas_bangunan" required defaultValue={data.luas_bangunan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="luas_parkir" required defaultValue={data.luas_parkir} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="keramaian" required defaultValue={data.keramaian} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="kebersihan" required defaultValue={data.kebersihan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="fasilitas" required defaultValue={data.fasilitas} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="jarak_dengan_pusat_kota" required defaultValue={data.jarak_dengan_pusat_kota} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="harga" required defaultValue={data.harga} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
