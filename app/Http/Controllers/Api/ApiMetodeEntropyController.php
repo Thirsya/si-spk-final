@@ -11,6 +11,7 @@ use App\Models\NormalisaiMoora;
 use App\Models\OptimasiMoora;
 use App\Models\Perhitungan;
 use App\Models\TabelBobotEntropy;
+use App\Models\TabelHistory;
 use App\Models\TabelTotalNilaiEntropy;
 use Illuminate\Support\Facades\DB;
 
@@ -431,62 +432,62 @@ class ApiMetodeEntropyController extends Controller
             ->where('id_perhitungan', $perhitunganID)
             ->get();
 
-            $kolomMax = [
-                'nilai_optimasi_moora_aksesbilitas',
-                'nilai_optimasi_moora_keamanan',
-                'nilai_optimasi_moora_kenyamanan',
-                'nilai_optimasi_moora_luas_bangunan',
-                'nilai_optimasi_moora_luas_parkir',
-                'nilai_optimasi_moora_keramaian',
-                'nilai_optimasi_moora_kebersihan',
-                'nilai_optimasi_moora_fasilitas',
+        $kolomMax = [
+            'nilai_optimasi_moora_aksesbilitas',
+            'nilai_optimasi_moora_keamanan',
+            'nilai_optimasi_moora_kenyamanan',
+            'nilai_optimasi_moora_luas_bangunan',
+            'nilai_optimasi_moora_luas_parkir',
+            'nilai_optimasi_moora_keramaian',
+            'nilai_optimasi_moora_kebersihan',
+            'nilai_optimasi_moora_fasilitas',
+        ];
+
+        $kolomMin = [
+            'nilai_optimasi_moora_jarak_dengan_pusat_kota',
+            'nilai_optimasi_moora_harga',
+        ];
+
+        $rankingFinals = [];
+        $penguranganMaxminArray = [];
+
+        foreach ($optimasiMoora as $key => $data) {
+            $maxOptimasi = 0;
+
+            foreach ($kolomMax as $kolom) {
+                $maxOptimasi += $data[$kolom];
+            }
+
+            $minOptimasi = 0;
+
+            foreach ($kolomMin as $kolom) {
+                $minOptimasi += $data[$kolom];
+            }
+
+            $penguranganMaxmin = $maxOptimasi - $minOptimasi;
+            $penguranganMaxminArray[$key] = $penguranganMaxmin;
+
+            $rankingFinals[] = [
+                'id_perhitungan' => $perhitunganID,
+                'nama_restoran' => $data['nama_restoran'],
+                'max_optimasi' => $maxOptimasi,
+                'min_optimasi' => $minOptimasi,
+                'pengurangan_maxmin' => $penguranganMaxmin,
             ];
+        }
 
-            $kolomMin = [
-                'nilai_optimasi_moora_jarak_dengan_pusat_kota',
-                'nilai_optimasi_moora_harga',
-            ];
+        arsort($penguranganMaxminArray);
 
-            $rankingFinals = [];
-            $penguranganMaxminArray = [];
+        $rangkingMoora = [];
+        $rank = 1;
+        foreach ($penguranganMaxminArray as $key => $value) {
+            $rangkingMoora[$key] = $rank;
+            $rank++;
+        }
 
-            foreach ($optimasiMoora as $key => $data) {
-                $maxOptimasi = 0;
-
-                foreach ($kolomMax as $kolom) {
-                    $maxOptimasi += $data[$kolom];
-                }
-
-                $minOptimasi = 0;
-
-                foreach ($kolomMin as $kolom) {
-                    $minOptimasi += $data[$kolom];
-                }
-
-                $penguranganMaxmin = $maxOptimasi - $minOptimasi;
-                $penguranganMaxminArray[$key] = $penguranganMaxmin;
-
-                $rankingFinals[] = [
-                    'id_perhitungan' => $perhitunganID,
-                    'nama_restoran' => $data['nama_restoran'],
-                    'max_optimasi' => $maxOptimasi,
-                    'min_optimasi' => $minOptimasi,
-                    'pengurangan_maxmin' => $penguranganMaxmin,
-                ];
-            }
-
-            arsort($penguranganMaxminArray);
-
-            $rangkingMoora = [];
-            $rank = 1;
-            foreach ($penguranganMaxminArray as $key => $value) {
-                $rangkingMoora[$key] = $rank;
-                $rank++;
-            }
-
-            foreach ($rankingFinals as $key => $data) {
-                $rankingFinals[$key]['ranking'] = $rangkingMoora[$key];
-            }
+        foreach ($rankingFinals as $key => $data) {
+            $rankingFinals[$key]['ranking'] = $rangkingMoora[$key];
+        }
 
         try {
             DB::table('ranking_finals')->insert($rankingFinals);
@@ -499,7 +500,68 @@ class ApiMetodeEntropyController extends Controller
             ->where('id_perhitungan', $perhitunganID)
             ->get();
 
+        $perhitunganKriteriaPerAlternatifData = DB::table('perhitungan_kriteria_per_alternatif')
+            ->where('id', $perhitunganID)
+            ->first();
 
+        $nilaimaxbenefitData = DB::table('nilai_max_tiap_alternatif_benefit')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $nilaimincostData = DB::table('nilai_min_tiap_alternatif_cost')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $nilaiEntropyNormalisasiData = DB::table('hasil_normalisasi_entropy')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $perhitunganJumlahNormalisasiEntropyData = DB::table('jumlah_normalisasi_entropies')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $perhitunganNilaiEntropyData = DB::table('tabel_nilai_entropies')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $TabelTotalNilaiEntropyData = DB::table('tabel_total_nilai_entropies')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $TabelTotalBobotEntropyData = DB::table('tabel_bobot_entropies')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $NilaiNormalisasiMooraData = DB::table('normalisasi_moora')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $NilaiOptimasiMooraData = DB::table('optimasi_moora')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        $NilairankingFinalsData = DB::table('ranking_finals')
+            ->where('id', $perhitunganID)
+            ->first();
+
+        // Simpan ke tabel_histories
+        $tabelHistories = new TabelHistory();
+        $tabelHistories->id_perhitungan = $perhitunganID;
+        $tabelHistories->id_kriteria_per_alternatif = $perhitunganKriteriaPerAlternatifData->id;
+        $tabelHistories->id_nilai_max_benefit = $nilaimaxbenefitData->id;
+        $tabelHistories->id_nilai_min_cost = $nilaimincostData->id;
+        $tabelHistories->id_hasil_normalisasi_entropy = $nilaiEntropyNormalisasiData->id;
+        $tabelHistories->id_jumlah_normalisasi_entropy = $perhitunganJumlahNormalisasiEntropyData->id;
+        $tabelHistories->id_nilai_entropy_e = $perhitunganNilaiEntropyData->id;
+        $tabelHistories->id_total_nilai_entropy = $TabelTotalNilaiEntropyData->id;
+        $tabelHistories->id_bobot_entropy = $TabelTotalBobotEntropyData->id;
+        $tabelHistories->id_normalisasi_moora = $NilaiNormalisasiMooraData->id;
+        $tabelHistories->id_optimasi_moora = $NilaiOptimasiMooraData->id;
+        $tabelHistories->id_ranking_final = $NilairankingFinalsData->id;
+        // Assign nilai foreign key lainnya sesuai kebutuhan
+        // dd($tabelHistories);
+
+        $tabelHistories->save();
 
 
         $response = [
@@ -562,6 +624,8 @@ class ApiMetodeEntropyController extends Controller
 
             $perhitunganKriteriaPerAlternatifData[] = $perhitunganKriteriaPerAlternatif;
         }
+
+
 
         $perhitunganTotalResponse = $this->PerhitunganTotal($perhitungan->id);
 
