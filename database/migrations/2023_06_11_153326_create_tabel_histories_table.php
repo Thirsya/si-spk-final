@@ -26,6 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_bobot_entropy');
             $table->unsignedBigInteger('id_normalisasi_moora');
             $table->unsignedBigInteger('id_optimasi_moora');
+            $table->unsignedBigInteger('id_ranking_final');
 
 
 
@@ -40,6 +41,7 @@ return new class extends Migration
             $table->foreign('id_bobot_entropy')->references('id')->on('tabel_bobot_entropies')->restrictOnDelete();
             $table->foreign('id_normalisasi_moora')->references('id')->on('normalisasi_moora')->restrictOnDelete();
             $table->foreign('id_optimasi_moora')->references('id')->on('optimasi_moora')->restrictOnDelete();
+            $table->foreign('id_ranking_final')->references('id')->on('ranking_finals')->restrictOnDelete();
             $table->timestamps();
         });
     }
