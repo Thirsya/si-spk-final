@@ -2,27 +2,48 @@ import { Navback } from "../components/navback"
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
+
 
 
 export const Langkah = () => {
     const navigate = useNavigate()
     const location = useLocation();
-    const jsonData = location.state.data;
+    const datas = location.state.data;
 
-    console.log(jsonData);
+    const namaResto = [];
+
+    // langkah Normalisasi Entropy
+    let EN11 = 0;
+    let EN13 = 0;
+    const maxEN11 = datas.perhitungan_total.original.nilaimaxbenefit[0].max_aksesbilitas;
+    const minEN13 = datas.perhitungan_total.original.nilaimincost[0].min_jarak_dengan_pusat_kota;
+    let x11 = 0;
+    let x13 = 0;
+
+    // emax
+    const emax = Math.log(datas.perhitungan_kriteria_per_alternatif.length);
+    console.log(emax);
+
+
+
+    // console.log(jsonData);
 
     return (
         <>
             <Navback></Navback>
             <div className="container py-5">
                 <h1 className="mb-5 ">Halaman Langkah-Langkah Pengerjaan</h1>
-                <h3 className="mb-3">Data Awal</h3>
+                <h4><b>Judul Perhitungan</b>  : {datas.perhitungan.judul_perhitungan}</h4>
+                <h4><b>Tanggal Perhitungan</b> : {datas.perhitungan.waktu_perhitungan}</h4>
+
+                <h3 className="mb-3 mt-5">Data Awal</h3>
                 <h5>1. Matrix Keputusan X</h5>
                 <table className="table table-bordered mb-5 table-striped" style={{ width: '75%' }}>
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Siswa</th>
+                            <th>Nama Restoran</th>
                             <th>C1</th>
                             <th>C2</th>
                             <th>C3</th>
@@ -36,48 +57,27 @@ export const Langkah = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Ahmad Rafif Alaudin</td>
-                            <td>0,2</td>
-                            <td>0,4</td>
-                            <td>0,5</td>
-                            <td>0,2</td>
-                            <td>0,4</td>
-                            <td>0,4</td>
-                            <td>0,2</td>
-                            <td>0,5</td>
-                            <td>0,3</td>
-                            <td>0,2</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Raka Bagas Fitriansyah</td>
-                            <td>0,4</td>
-                            <td>0,2</td>
-                            <td>0,4</td>
-                            <td>0,5</td>
-                            <td>0,3</td>
-                            <td>0,4</td>
-                            <td>0,5</td>
-                            <td>0,2</td>
-                            <td>0,2</td>
-                            <td>0,2</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Thirsya Widya Sulaiman</td>
-                            <td>0,4</td>
-                            <td>0,3</td>
-                            <td>0,2</td>
-                            <td>0,4</td>
-                            <td>0,2</td>
-                            <td>0,5</td>
-                            <td>0,2</td>
-                            <td>0,2</td>
-                            <td>0,4</td>
-                            <td>0,5</td>
-                        </tr>
+                        {datas.perhitungan_kriteria_per_alternatif.map((d, index) => {
+                            namaResto.push(d.nama_restoran)
+                            x11 = Object.values(d)[2];
+                            x13 = Object.values(d)[10];
+                            return (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{d.nama_restoran}</td>
+                                    <td>{d.aksesbilitas}</td>
+                                    <td>{d.keamanan}</td>
+                                    <td>{d.jarak_dengan_pusat_kota}</td>
+                                    <td>{d.harga}</td>
+                                    <td>{d.kenyamanan}</td>
+                                    <td>{d.luas_bangunan}</td>
+                                    <td>{d.luas_parkir}</td>
+                                    <td>{d.keramaian}</td>
+                                    <td>{d.kebersihan}</td>
+                                    <td>{d.fasilitas}</td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
 
@@ -89,11 +89,6 @@ export const Langkah = () => {
                         <h5>1. Normalisasi Matrix dengan rumus : </h5>
                         <div className="container ps-3">
                             <img src={'img/rumus/entropi normalisasi.jpeg'} alt="rumus normalisasi" style={{ height: '150px' }} className="ms-3 mb-3" />
-                            <p>- Perhitungan manual :</p>
-                            <div className="ms-3">
-                                <p>r<sub>11</sub> = 0,2 / 0,5 = 0,4 (Benefit)</p>
-                                <p>r<sub>16</sub> = 0,1 / 0,4 = 4 (Cost)</p>
-                            </div>
 
                             <p>- Tabel Hasil Normalisasi : </p>
                             <table className="table table-bordered my-3 mb-5 ms-3 table-striped" style={{ width: '75%' }}>
@@ -101,8 +96,9 @@ export const Langkah = () => {
                                     <tr>
                                         <th rowSpan="2">No</th>
                                         <th rowSpan="2">Nama Siswa</th>
-                                        <th colSpan="5">Benefit</th>
-                                        <th colSpan="5">Cost</th>
+                                        <th colSpan="2">Benefit</th>
+                                        <th colSpan="2">Cost</th>
+                                        <th colSpan="6">Benefit</th>
                                     </tr>
                                     <tr>
                                         <th>C1</th>
@@ -118,54 +114,38 @@ export const Langkah = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="text-center">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Ahmad Rafif Alaudin</td>
-                                        <td>0,2</td>
-                                        <td>0,4</td>
-                                        <td>0,5</td>
-                                        <td>0,2</td>
-                                        <td>0,4</td>
-                                        <td>0,4</td>
-                                        <td>0,2</td>
-                                        <td>0,5</td>
-                                        <td>0,3</td>
-                                        <td>0,2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Raka Bagas Fitriansyah</td>
-                                        <td>0,4</td>
-                                        <td>0,2</td>
-                                        <td>0,4</td>
-                                        <td>0,5</td>
-                                        <td>0,3</td>
-                                        <td>0,4</td>
-                                        <td>0,5</td>
-                                        <td>0,2</td>
-                                        <td>0,2</td>
-                                        <td>0,2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Thirsya Widya Sulaiman</td>
-                                        <td>0,4</td>
-                                        <td>0,3</td>
-                                        <td>0,2</td>
-                                        <td>0,4</td>
-                                        <td>0,2</td>
-                                        <td>0,5</td>
-                                        <td>0,2</td>
-                                        <td>0,2</td>
-                                        <td>0,4</td>
-                                        <td>0,5</td>
-                                    </tr>
+                                    {datas.perhitungan_total.original.nilaiEntropyNormalisasi.map((d, index) => {
+
+                                        EN11 = Object.values(d)[2];
+                                        EN13 = Object.values(d)[10];
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{namaResto[index]}</td>
+                                                <td>{d.nilai_normalisasi_aksesbilitas.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_keamanan.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_jarak_dengan_pusat_kota.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_harga.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_kenyamanan.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_luas_bangunan.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_luas_parkir.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_keramaian.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_kebersihan.toFixed(2)}</td>
+                                                <td>{d.nilai_normalisasi_fasilitas.toFixed(2)}</td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
+                            <p>- Perhitungan manual :</p>
+                            <div className="ms-3">
+                                <p>r<sub>11</sub> = {x11} / {maxEN11} = {EN11} (Benefit)</p>
+                                <p>r<sub>16</sub> = {minEN13} / {x13} = {EN13} (Cost)</p>
+                            </div>
                         </div>
 
-                        <h5>2. Nilai e max, dengan jumlah alternatif 20, maka e max = ln(20), e max = 2,9957</h5>
-                        <h5>3. Nilai K, yaitu K x (1/e max), K = 1/2,9957, K = 0,3338</h5>
+                        <h5>2. Nilai e max, dengan jumlah alternatif {datas.perhitungan_kriteria_per_alternatif.length}, maka e max = ln({datas.perhitungan_kriteria_per_alternatif.length}), e max = {emax.toFixed(4)}</h5>
+                        <h5>3. Nilai K, yaitu K x (1/e max), K = 1/{emax.toFixed(4)}, K = {(1 / emax).toFixed(4)}</h5>
                         <h5>4. Mencari Nilai Entropy masing-masing kriteria dengan rumus</h5>
                         <img src={'img/rumus/entropi 3.png'} alt="rumus 3" className="mb-3 ms-3" />
                         <div className="container ms-5">
@@ -188,21 +168,25 @@ export const Langkah = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="text-center">
-                                    <tr>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                        <td>0,995329</td>
-                                    </tr>
+                                    {datas.perhitungan_total.original.nilaiEntropy.map((d, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{d.nilai_e_kriteria_aksesbilitas.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_keamanan.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_jarak_dengan_pusat_kota.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_harga.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_kenyamanan.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_luas_bangunan.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_luas_parkir.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_keramaian.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_kebersihan.toFixed(6)}</td>
+                                                <td>{d.nilai_e_kriteria_fasilitas.toFixed(6)}</td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
-                            <p>- Total Nilai Entropy (E) = 4,911586</p>
+                            <p>- Total Nilai Entropy (E) = {datas.perhitungan_total.original.TabelTotalNilaiEntropy[0].total_nilai_e_entropy.toFixed(6)}</p>
                         </div>
                         <h5>5. Mencari Bobot Entropy Setiap Kriteria dengan Rumus :</h5>
                         <img src={'img/rumus/entropi 4.png'} alt="rumus entropy 4" style={{ height: '50px' }} className="ms-3 mb-3" />
@@ -482,5 +466,6 @@ export const Langkah = () => {
         </>
     );
 }
+
 
 export default Langkah;

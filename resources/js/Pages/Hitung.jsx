@@ -48,14 +48,20 @@ export const Hitung = () => {
                 // Lakukan sesuatu setelah berhasil mengirim form
                 // navigate('/langkah');
                 // console.log(data);
-                Swal.fire(
-                    'Success!',
-                    'Data Added succesfully!',
-                )
+                Swal.fire({
+                    icon: 'success',
+                    title: 'yey',
+                    text: 'Data input Success!',
+                })
 
             })
             .catch(error => {
                 // Tangani error jika terjadi
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error,
+                })
             });
     };
 
