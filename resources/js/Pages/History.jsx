@@ -1,9 +1,21 @@
 import { Navback } from "../components/navback"
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
 export const History = () => {
     const navigate = useNavigate()
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = () => {
+        fetch('URL_API_ANDA')
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error(error));
+    };
+
     return (
         <>
             <Navback></Navback>
