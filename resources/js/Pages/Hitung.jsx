@@ -27,13 +27,15 @@ export const Hitung = () => {
 
         // updatedFormData.alternatif[index][name] = value;
         // setRows(updatedRows);
-        console.log(updatedFormData);
+        // console.log(updatedFormData);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const submitJsonData = JSON.stringify(formData);
+
+        // console.log(formData);
 
         fetch('http://127.0.0.1:8000/api/inputKriteriaAlternatif', {
             method: 'POST',
@@ -44,15 +46,15 @@ export const Hitung = () => {
         })
             .then(response => response.json())
             .then(data => {
-                navigate('/langkah', { state: { data } });
-                // Lakukan sesuatu setelah berhasil mengirim form
-                // navigate('/langkah');
-                // console.log(data);
                 Swal.fire({
                     icon: 'success',
                     title: 'yey',
                     text: 'Data input Success!',
                 })
+                navigate('/langkah', { state: { data } });
+                // // Lakukan sesuatu setelah berhasil mengirim form
+                // // navigate('/langkah');
+                // console.log(data);
 
             })
             .catch(error => {
@@ -92,7 +94,7 @@ export const Hitung = () => {
                 return obj;
             });
 
-            // console.log(result); // JSON hasil konversi
+            console.log(result); // JSON hasil konversi
             setJsonData(result);
 
             const updatedFormData = { ...formData };
@@ -580,6 +582,12 @@ export const Hitung = () => {
                                                     <input type="number" name="keamanan" required defaultValue={data.keamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
                                                 </td>
                                                 <td>
+                                                    <input type="number" name="jarak_dengan_pusat_kota" required defaultValue={data.jarak_dengan_pusat_kota} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="harga" required defaultValue={data.harga} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
+                                                </td>
+                                                <td>
                                                     <input type="number" name="kenyamanan" required defaultValue={data.kenyamanan} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
                                                 </td>
                                                 <td>
@@ -596,12 +604,6 @@ export const Hitung = () => {
                                                 </td>
                                                 <td>
                                                     <input type="number" name="fasilitas" required defaultValue={data.fasilitas} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="jarak_dengan_pusat_kota" required defaultValue={data.jarak_dengan_pusat_kota} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="harga" required defaultValue={data.harga} style={{ width: '40px', border: 'none' }} onChange={(event) => handleChange(event, index)} />
                                                 </td>
                                             </tr>
                                         ))}
