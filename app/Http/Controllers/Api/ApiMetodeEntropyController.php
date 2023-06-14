@@ -638,4 +638,6 @@ class ApiMetodeEntropyController extends Controller
 
         return response()->json($response, 201);
     }
+
+
 }

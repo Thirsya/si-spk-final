@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiHistoryController;
 use App\Http\Controllers\Api\ApiPerhitunganController;
 use App\Http\Controllers\Api\ApiPerhitunganKriteriaPerAlternatifController;
 use App\Http\Controllers\Api\ApiMetodeEntropyController;
@@ -38,3 +39,4 @@ Route::post(
 Route::get('perhitungantotal/{id_perhitungan}', [ApiMetodeEntropyController::class, 'PerhitunganTotal'])->name('api.test.index');
 Route::post('inputKriteriaAlternatif', [ApiMetodeEntropyController::class, 'TambahDataKriteriaDanAlternatif'])
     ->name('api.input.kriteria.alternatif');
+Route::apiResource('history', ApiHistoryController::class);
