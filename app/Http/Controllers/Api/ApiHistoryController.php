@@ -31,47 +31,48 @@ class ApiHistoryController extends Controller
     public function show($idPerhitungan)
     {
         $perhitunganKriteriaPerAlternatifData = DB::table('perhitungan_kriteria_per_alternatif')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
+        // $perhitunganKriteriaPerAlternatif[] = $perhitunganKriteriaPerAlternatifData;
 
         $nilaimaxbenefitData = DB::table('nilai_max_tiap_alternatif_benefit')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
         $nilaimincostData = DB::table('nilai_min_tiap_alternatif_cost')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
         $nilaiEntropyNormalisasiData = DB::table('hasil_normalisasi_entropy')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
         $perhitunganJumlahNormalisasiEntropyData = DB::table('jumlah_normalisasi_entropies')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
         $perhitunganNilaiEntropyData = DB::table('tabel_nilai_entropies')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
         $TabelTotalNilaiEntropyData = DB::table('tabel_total_nilai_entropies')
-            ->where('id', $idPerhitungan)
+            ->where('hitung_id', $idPerhitungan)
             ->get();
 
         $TabelTotalBobotEntropyData = DB::table('tabel_bobot_entropies')
-            ->where('id', $idPerhitungan)
+            ->where('hitung_id', $idPerhitungan)
             ->get();
 
         $NilaiNormalisasiMooraData = DB::table('normalisasi_moora')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
         $NilaiOptimasiMooraData = DB::table('optimasi_moora')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
         $NilairankingFinalsData = DB::table('ranking_finals')
-            ->where('id', $idPerhitungan)
+            ->where('id_perhitungan', $idPerhitungan)
             ->get();
 
 
@@ -87,9 +88,10 @@ class ApiHistoryController extends Controller
             'id_bobot_entropy',
             'id_normalisasi_moora',
             'id_optimasi_moora',
-            'id_ranking_final',)
-        ->where('id_perhitungan', $idPerhitungan)
-        ->get();
+            'id_ranking_final',
+        )
+            ->where('id_perhitungan', $idPerhitungan)
+            ->get();
 
         $response = [
             'tabelHistory' => $tabelHistory,
@@ -106,12 +108,10 @@ class ApiHistoryController extends Controller
             'NilairankingFinalsData' => $NilairankingFinalsData,
         ];
 
-
-
         if ($tabelHistory) {
             return response()->json($response);
         } else {
             return response()->json(['message' => 'TabelHistory not found'], Response::HTTP_NOT_FOUND);
-        }
+    }
     }
 }
