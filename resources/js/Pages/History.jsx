@@ -1,20 +1,33 @@
 import { Navback } from "../components/navback"
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 
 export const History = () => {
     const navigate = useNavigate()
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    const fetchData = () => {
-        fetch('URL_API_ANDA')
-            .then(response => response.json())
-            .then(data => setData(data))
-            .catch(error => console.error(error));
+    const api = axios.create({
+        baseURL: 'http://127.0.0.1:8000/api',
+        headers: {
+            'Accept': 'application/json',
+        },
+    });
+
+    const fetchData = async () => {
+        try {
+            const response = await api.get('/history');
+            setData(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
+    console.log(response)
 
     return (
         <>

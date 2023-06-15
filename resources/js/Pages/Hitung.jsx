@@ -10,7 +10,7 @@ export const Hitung = () => {
 
 
     const [formData, setFormData] = useState({
-        judul_perhitungan: 'Judul 1',
+        judul_perhitungan: 'Restoran di Malang',
         alternatif: []
 
     });
@@ -541,6 +541,9 @@ export const Hitung = () => {
                             </div>
                             <p className="m-0">Contoh Inputan Excel</p>
                             <img src="img/contoh.png" alt="" className="p-3" />
+                            <p className="m-0">
+                                download template excelnya <a href="https://docs.google.com/spreadsheets/d/1Bu0bG8z7OeNWxnrZKIgQcCBJ4tlO_o_g/edit?usp=sharing&ouid=101222323684368928770&rtpof=true&sd=true" target="_blank" > disini</a>
+                            </p>
                             <div className="my-5" style={{ width: '150%' }}>
                                 <div className="d-flex">
                                     <div className="">
@@ -549,6 +552,9 @@ export const Hitung = () => {
                                     </div>
                                 </div>
                             </div>
+
+
+
                             <div className="py-4">
                                 <h3 className="p-4">Preview Data</h3>
                                 <table className="table table-bordered" style={{ width: '180%' }} id="kriteria-table" >
