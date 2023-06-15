@@ -27,7 +27,35 @@ export const History = () => {
             console.error(error);
         }
     };
-    console.log(response)
+
+    const handleDetail = async (id, event) => {
+        event.preventDefault();
+
+        try {
+            const response = await api.get('/history/' + id);
+            const data = response.data; // Periksa properti data pada respons
+
+            if (data) {
+                navigate('/langkah', { state: { data } });
+                // console.log(data);
+            } else {
+                throw new Error('Invalid response data');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        // api.get('/history/' + id)
+        //     .then(data => {
+        //         navigate('/langkah', { state: { data } });
+        //         // console.log(data);
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+    };
+
+
 
     return (
         <>
@@ -44,30 +72,16 @@ export const History = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1.</td>
-                            <td>Perhitungan 1</td>
-                            <td>01/06/2023</td>
-                            <td>
-                                <button className="btn btn-sm btn-info text-white" type="button" onClick={() => navigate('/langkah')}>Detail</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2.</td>
-                            <td>Perhitungan 2</td>
-                            <td>01/06/2023</td>
-                            <td>
-                                <button className="btn btn-sm btn-info text-white" type="button" onClick={() => navigate('/langkah')}>Detail</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3.</td>
-                            <td>Perhitungan 3</td>
-                            <td>01/06/2023</td>
-                            <td>
-                                <button className="btn btn-sm btn-info text-white" type="button" onClick={() => navigate('/langkah')}>Detail</button>
-                            </td>
-                        </tr>
+                        {data.map((d, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{d.judul_perhitungan}</td>
+                                <td>{d.waktu_perhitungan}</td>
+                                <td>
+                                    <button className="btn btn-sm btn-info text-white" type="button" onClick={event => handleDetail(d.id_perhitungan, event)}>Detail</button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
